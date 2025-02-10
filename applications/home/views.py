@@ -30,3 +30,11 @@ class HomePageView(CreateView):
 class TarifaPageView(TemplateView):
     template_name='home/tarifa.html'
 
+
+
+class TarifaAnualPageView(TemplateView):
+    template_name='home/tarifa_anual.html'
+
+class TarifaMensualPageView(TemplateView):
+    template_name='home/tarifa_mensual.html'
+

@@ -1,0 +1,101 @@
+{% extends "base.html" %}}
+{% load static %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="container p-5">
+  <div class="row p-5">
+  <div class="col-3"></div>
+    <div class="col-6 text-center p-5">
+
+      <h1 class="display-2"><b>Plan Mensual</b></h1><br>
+      <div id="paypal-button-container-P-7U045339GL892111VM6VEPAI"></div>
+        
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Añade información básica:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Guardar</button><br><br>
+        <label class="text-dark">Nota: Desde el panel de control se puede actualizar y detallar toda la información para el asistente virtual</label>
+    </form>
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar cambios</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=ARemG9CtIcXhNV01t10KGkC0CT-ebVvpzwKewU0onq5IaKTKn3D6vjTmqne6a0M6MyfLcCyxvhamz8vr&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+        <script>
+          paypal.Buttons({
+              style: {
+                  shape: 'pill',
+                  color: 'gold',
+                  layout: 'vertical',
+                  label: 'subscribe'
+              },
+              createSubscription: function(data, actions) {
+                return actions.subscription.create({
+                  /* Creates the subscription */
+                  plan_id: 'P-7U045339GL892111VM6VEPAI'
+                });
+              },
+              onApprove: function(data, actions) {
+                alert(data.subscriptionID); // You can add optional success message for the subscriber here
+              }
+          }).render('#paypal-button-container-P-7U045339GL892111VM6VEPAI'); // Renders the PayPal button
+        </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById("exampleInputEmail1"); // Campo donde el usuario escribe el nombre
+    const assistantUrl = document.getElementById("assistanturl"); // Texto dinámico de la URL
+    const modalCompanyName = document.getElementById("id_assistant_url_name"); // Campo en el formulario modal
+
+    input.addEventListener("input", function() {
+        // Remover espacios y caracteres especiales para crear una URL válida
+        let sanitizedText = input.value.trim().toLowerCase().replace(/\s+/g, '');
+
+        // Actualizar la URL del asistente
+        assistantUrl.textContent = sanitizedText;
+
+        // Actualizar el campo de empresa en el modal si existe
+        if (modalCompanyName) {
+            modalCompanyName.value = input.value;
+        }
+    });
+});
+</script>
+
+
+
+{% endblock %}
