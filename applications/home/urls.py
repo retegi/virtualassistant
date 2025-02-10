@@ -14,4 +14,12 @@ urlpatterns = [
         views.TarifaPageView.as_view(),
         name='tarifa',
     ),
+    path('tarifa-anual/',
+        views.TarifaAnualPageView.as_view(),
+        name='tarifa_anual',
+    ),
+    path('tarifa-mensual/',
+        views.TarifaMensualPageView.as_view(),
+        name='tarifa_mensual',
+    ),
 ]
