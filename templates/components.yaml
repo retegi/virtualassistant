@@ -1,0 +1,5 @@
+components:
+  button:
+    template: components/button.html
+  card:
+    template: components/card.html
