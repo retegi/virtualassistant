@@ -28,7 +28,7 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
         <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-         <label style="" class="h3 text-success grand-hotel-regular">TuAsistenteInteligente.com</label>
+         <label class="h3 text-success grand-hotel-regular">TuAsistenteInteligente.com</label>
          </a>
       </div>
 
@@ -41,8 +41,13 @@
       </ul>
 
       <div class="col-md-3 text-end">
+      {% if user.is_authenticated %}
+        <button type="button" class="btn btn-light me-2">{{ user.username }}</button>
+        <a href="{% url 'account_logout' %}"><button type="button" class="btn btn-light me-2">Salir</button></a>
+      {% else %}
         <a href="{% url 'account_login' %}"><button type="button" class="btn btn-light me-2">Iniciar sesión</button></a>
         <a href="{% url 'account_signup' %}"><button type="button" class="btn btn-light">Registrarse</button></a>
+      {% endif %}
       </div>
     </header>
   </div>
