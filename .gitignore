@@ -15,3 +15,4 @@ staticfiles/
 media/sendgrid.env
 sendgrid.env
 db.sqlite3
+virtualassistant/settings.py
