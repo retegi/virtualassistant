@@ -24,4 +24,5 @@ urlpatterns = [
     path('assistant/', include('applications.assistant.urls')),
     path('<str:assistant_url_name>/', AssistantDetailView.as_view(), name='assistant_detail'),
     path('accounts/', include('allauth.urls')),
+    path('assistant/', include('applications.tuasistenteinteligente.urls')),
 ]
