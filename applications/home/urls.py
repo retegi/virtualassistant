@@ -22,4 +22,8 @@ urlpatterns = [
         views.TarifaMensualPageView.as_view(),
         name='tarifa_mensual',
     ),
+    path('dashboard/',
+        views.DashboardView.as_view(),
+        name='dashboard',
+    ),
 ]

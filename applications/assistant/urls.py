@@ -10,4 +10,8 @@ urlpatterns = [
         views.BusinessProfileCreateView.as_view(),
         name='create_assistant',
     ),
+    path('',
+        views.WebAssistantView.as_view(),
+        name='web_assistant',
+    ),
 ]

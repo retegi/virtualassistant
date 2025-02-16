@@ -35,3 +35,6 @@ class AssistantDetailView(DetailView):
     def get_object(self):
         # Buscar el perfil del negocio basado en assistant_url_name
         return get_object_or_404(BusinessProfile, assistant_url_name=self.kwargs["assistant_url_name"])
+    
+class WebAssistantView(TemplateView):
+    template_name="assistant/virtual_assistant.html"

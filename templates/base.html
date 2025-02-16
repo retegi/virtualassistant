@@ -75,7 +75,7 @@
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="#" class="nav-link px-2 link-secondary text-white">Home</a></li>
         <li><a href="{% url 'home_app:home' %}#tarifa" class="nav-link px-2 text-white">Tarifa</a></li>
-        <li><a href="{% url 'chat_view' %}" class="nav-link px-2 text-white bg-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Asistente</a></li>
+        <li><a href="{% url 'assistant_app:web_assistant' %}" class="nav-link px-2 text-white bg-success">Asistente</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Ayuda</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Contact</a></li>
       </ul>
@@ -110,7 +110,6 @@
 
 
 {% load static %}
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -125,7 +124,7 @@
       </div>
 
       <!-- Contenedor del chat -->
-      <div id="chat-container" class="bg-white px-3 py-4" style="max-height:800vh; overflow-y: auto;">
+      <div id="chat-container" class="bg-white px-3 py-4" style="max-height:400px; overflow-y: auto;">
         <div id="chat-box" style="min-height:20vh;">
           <!-- Los mensajes del chat se mostrarán aquí -->
         </div>
@@ -133,9 +132,8 @@
 
       <!-- Zona de entrada fija -->
       <div id="input-container" class="px-3 py-2 bg-light">
-        <form id="message-form" method="post">
-          <input type="text" id="user-message" class="form-control mb-2" placeholder="Write your question in any language">
-          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <form id="message-form">
+          <input type="text" id="user-message" class="form-control mb-2" placeholder="Escribe tu mensaje...">
           <button type="button" id="send-button" class="btn btn-success w-100">Enviar</button>
         </form>
       </div>
@@ -150,33 +148,47 @@
 
 <!-- Cargar jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Código JavaScript -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+      console.log("Script cargado correctamente."); // Mensaje de depuración
+
+      var chatBox = document.getElementById("chat-box");
       var chatContainer = document.getElementById("chat-container");
-  
+      var sendButton = document.getElementById("send-button");
+      var userInput = document.getElementById("user-message");
+
       function scrollToBottom() {
           chatContainer.scrollTop = chatContainer.scrollHeight;
       }
-  
-      // Monitorear cambios en el chat-box
-      var chatBox = document.getElementById("chat-box");
-      var observer = new MutationObserver(function () {
-          scrollToBottom(); // Hacer scroll automáticamente cuando hay cambios
-      });
-  
-      observer.observe(chatBox, { childList: true }); // Observar adiciones o eliminaciones en el chat-box
-  
+
+      // Observar cambios en el chat-box y hacer scroll automático
+      var observer = new MutationObserver(scrollToBottom);
+      observer.observe(chatBox, { childList: true });
+
       // También hacer scroll cuando el modal se muestra
-      var exampleModal = document.getElementById('exampleModal');
-      exampleModal.addEventListener('shown.bs.modal', function () {
-          scrollToBottom();
+      document.getElementById('exampleModal').addEventListener('shown.bs.modal', scrollToBottom);
+
+      // Manejar el envío del mensaje
+      sendButton.addEventListener("click", function () {
+          console.log("Botón Enviar pulsado."); // Depuración
+          
+          var message = userInput.value.trim();
+          if (message !== "") {
+              var messageElement = document.createElement("div");
+              messageElement.classList.add("alert", "alert-primary", "mt-2");
+              messageElement.textContent = message;
+              chatBox.appendChild(messageElement);
+              userInput.value = ""; // Limpiar el input después de enviar
+              scrollToBottom();
+              console.log("Mensaje agregado al chat."); // Depuración
+          } else {
+              console.log("El mensaje está vacío."); // Depuración
+          }
       });
   });
-  
-  
-  </script>
+</script>
+
+
 
 
 <!--OpenAI-->

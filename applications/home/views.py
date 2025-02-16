@@ -38,3 +38,6 @@ class TarifaAnualPageView(TemplateView):
 class TarifaMensualPageView(TemplateView):
     template_name='home/tarifa_mensual.html'
 
+
+class DashboardView(TemplateView):
+    template_name='home/dashboard.html'
