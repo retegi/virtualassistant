@@ -43,4 +43,5 @@ urlpatterns = [
     path("edit-service/<int:pk>/", views.UpdateServiceView.as_view(), name="update_service"),
     path("delete-service/<int:pk>/", views.DeleteServiceView.as_view(), name="delete_service"),
 
+
 ]

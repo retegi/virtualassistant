@@ -38,7 +38,8 @@ class CompleteBusinessProfileForm(forms.ModelForm):
             "form_background_color",
             "button_background_color",
             "button_text_color",
-            "chat_text_color",
+            "chat_customer_text_color",
+            "chat_assistant_text_color",
             "company_name",
             "assistant_url_name",
             "description",
@@ -61,7 +62,8 @@ class CompleteBusinessProfileForm(forms.ModelForm):
             "form_background_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "button_background_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "button_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "chat_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "chat_customer_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "chat_assistant_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "company_name":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "assistant_url_name":forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre para el asiste. Por ejemplo: zapatosmadrid" }),
             "description":forms.Textarea(attrs={"class": "form-control", "rows": 15, "placeholder": ""}),
@@ -73,11 +75,10 @@ class CompleteBusinessProfileForm(forms.ModelForm):
             "social_media":forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "","value":"{'facebook': 'url', 'instagram': 'url'}"}),
         }
 
-
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "price", "available", "image"]
+        fields = ["name", "description", "price", "available", "image","product_url","offer","offer_price"]
         
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre del producto"}),
@@ -85,14 +86,16 @@ class ProductForm(forms.ModelForm):
             "price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio"}),
             "available": forms.Select(choices=[(True, "Disponible"), (False, "No Disponible")], attrs={"class": "form-control"}),
             "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "offer": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "product_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "offer_price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio oferta"}),
+            
         }
-
-
 
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "description", "price", "available", "image"]
+        fields = ["name", "description", "price", "available", "image","service_url","offer","offer_price"]
         
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre del servicio"}),
@@ -100,4 +103,8 @@ class ServiceForm(forms.ModelForm):
             "price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio"}),
             "available": forms.Select(choices=[(True, "Disponible"), (False, "No Disponible")], attrs={"class": "form-control"}),
             "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "offer": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "service_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "offer_price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio oferta"}),
+            
         }

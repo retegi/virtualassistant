@@ -11,7 +11,7 @@
     <style>
         body {
             background-color: {{ business_profile.background_color }};
-            color: {{ business_profile.chat_text_color }};
+            color: #222;
         }
         .chat-container {
             max-width: 600px;
@@ -34,11 +34,11 @@
         }
         .user-message {
             text-align: right;
-            color: #007bff;
+            color: {{ business_profile.chat_customer_text_color }};
         }
         .assistant-message {
             text-align: left;
-            color: #28a745;
+            color: {{ business_profile.chat_assistant_text_color }};
         }
         .chat-input {
             width: 100%;
@@ -64,8 +64,9 @@
                     <img src="{{ business_profile.company_logo.url }}" alt="Logo de {{ business_profile.company_name }}" class="img-fluid" style="max-height: 100px;">
                 </div>
             {% endif %}
-            
+            {% if business_profile.show_company_name and business_profile.company_name %}
             <h3 class="text-center mt-3">{{ business_profile.company_name }}</h3>
+            {% endif %}
             
             <div id="chat-box" class="chat-box mt-3"></div>
 
@@ -119,6 +120,22 @@
 }
 
     </script>
+
+
+<script>
+    // Enfocar el input cuando la página se carga
+window.onload = function() {
+    document.getElementById("user-message").focus();
+};
+
+// Detectar cuando el usuario presiona "Enter" y enviar el mensaje
+document.getElementById("user-message").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") { // Verifica si la tecla presionada es Enter
+        event.preventDefault(); // Evita el comportamiento por defecto del Enter en formularios
+        sendMessage(); // Llama a la función para enviar el mensaje
+    }
+});
+</script>
 
 </body>
 </html>

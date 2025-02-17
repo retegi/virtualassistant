@@ -14,7 +14,8 @@ class BusinessProfile(models.Model):
     form_background_color = models.CharField(max_length=255, verbose_name="Color HTML de fondo de formulario", default="#f8f9fa", blank=True, null=True)
     button_background_color = models.CharField(max_length=255, verbose_name="Color HTML de fondo del botón", default="#28a745", blank=True, null=True)
     button_text_color = models.CharField(max_length=255, verbose_name="Color HTML de texto del botón", default="white", blank=True, null=True)
-    chat_text_color = models.CharField(max_length=255, verbose_name="Color HTML del chat", default="#333", blank=True, null=True)
+    chat_customer_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del cliente", default="#333", blank=True, null=True)
+    chat_assistant_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del asistente", default="#333", blank=True, null=True)
     assistant_url_name = models.CharField(max_length=255, verbose_name="Nombre url", blank=True, null=True)
     description = models.TextField(verbose_name="Descripción de la Empresa", blank=True, null=True)
     contact_email = models.EmailField(verbose_name="Correo Electrónico de Contacto", blank=True, null=True)
@@ -29,18 +30,24 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nombre del Producto")
     description = models.TextField(verbose_name="Descripción del Producto", blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio", blank=True, null=True)
+    offer_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio en oferta", blank=True, null=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
+    offer = models.BooleanField(default=False, verbose_name="¿En oferta?",blank=True, null=True)
     image = models.ImageField(upload_to="products/", verbose_name="Imagen", blank=True, null=True)
+    product_url = models.URLField(verbose_name="Url del producto", blank=True, null=True)
 
 class Service(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="services")
     name = models.CharField(max_length=255, verbose_name="Nombre del Servicio")
     description = models.TextField(verbose_name="Descripción del Servicio", blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio", blank=True, null=True)
-    duration = models.DurationField(verbose_name="Duración Aproximada", blank=True, null=True)
+    offer_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio en oferta", blank=True, null=True)
+    #duration = models.DurationField(verbose_name="Duración Aproximada", blank=True, null=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
+    offer = models.BooleanField(default=False, verbose_name="¿En oferta?", blank=True, null=True)
     image = models.ImageField(upload_to="services/", verbose_name="Imagen", blank=True, null=True)
-
+    service_url = models.URLField(verbose_name="Url del servicio", blank=True, null=True)
+    
 class FAQ(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="faqs")
     question = models.TextField(verbose_name="Pregunta Frecuente")
