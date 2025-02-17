@@ -3,14 +3,19 @@ from django.views.generic import (
     TemplateView,
     CreateView,
     UpdateView,
+    DetailView,
+    DeleteView,
+    FormView,
+    ListView,
 )
 from applications.assistant.models import BusinessProfile, Product, Service, FAQ, Promotion, CustomResponses
-from applications.assistant.forms import BusinessProfileForm
+from applications.assistant.forms import BusinessProfileForm, CompleteBusinessProfileForm, ProductForm, ServiceForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
-
-from django.views.generic.edit import CreateView
 
 class HomePageView(CreateView):
     model = BusinessProfile
@@ -40,4 +45,267 @@ class TarifaMensualPageView(TemplateView):
 
 
 class DashboardView(TemplateView):
-    template_name='home/dashboard.html'
+    template_name = 'dashboard/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Filtrar los perfiles de negocio por el usuario autenticado
+        user = self.request.user
+        context['my_assistants'] = BusinessProfile.objects.filter(user=user)
+        
+        return context
+    
+class AssistantProfileDetailView(LoginRequiredMixin, DetailView):
+    model = BusinessProfile
+    template_name = 'dashboard/assistant_detail.html'
+    context_object_name = 'assistant_profile'
+
+    def get_queryset(self):
+        """
+        Asegura que el usuario autenticado solo pueda ver sus propios perfiles de negocio.
+        """
+        return BusinessProfile.objects.filter(user=self.request.user)
+
+
+class AssistantCreateView(LoginRequiredMixin, CreateView):
+    model = BusinessProfile
+    form_class = CompleteBusinessProfileForm
+    template_name = "dashboard/assistant_create.html"
+    success_url = reverse_lazy("home_app:dashboard")
+
+    def form_valid(self, form):
+        """Asigna automáticamente el usuario autenticado antes de guardar el formulario."""
+        form.instance.user = self.request.user
+        self.object = form.save()  # Guarda el objeto en self.object antes de redirigir
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        """Evita el error asegurando que self.object esté definido antes de renderizar."""
+        self.object = None  # Se asegura de que no haya un objeto antes de renderizar el formulario inválido
+        return self.render_to_response(self.get_context_data(form=form))
+    
+
+class AssistantUpdateView(LoginRequiredMixin, UpdateView):
+    model = BusinessProfile
+    form_class = CompleteBusinessProfileForm
+    template_name = "dashboard/assistant_create.html"
+    success_url = reverse_lazy("home_app:dashboard")
+
+    def form_valid(self, form):
+        """Asigna automáticamente el usuario autenticado antes de guardar el formulario."""
+        form.instance.user = self.request.user
+        self.object = form.save()  # Guarda el objeto en self.object antes de redirigir
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        """Evita el error asegurando que self.object esté definido antes de renderizar."""
+        self.object = None  # Se asegura de que no haya un objeto antes de renderizar el formulario inválido
+        return self.render_to_response(self.get_context_data(form=form))
+    
+
+class AssistantDeleteView(LoginRequiredMixin, DeleteView):
+    model = BusinessProfile
+    template_name = "dashboard/assistant_confirm_assistant_delete.html"
+    success_url = reverse_lazy("home_app:dashboard")
+
+    def get_object(self, queryset=None):
+        """
+        Asegura que el usuario autenticado solo pueda eliminar su propio BusinessProfile.
+        """
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise Http404("No tienes permiso para eliminar este perfil.")
+        return obj
+    
+
+
+class CreateProductView(LoginRequiredMixin, FormView):
+    template_name = "dashboard/assistant_product_create.html"
+    form_class = ProductForm
+
+    def dispatch(self, request, *args, **kwargs):
+        """Verifica que el usuario tenga acceso al BusinessProfile especificado en la URL."""
+        self.business_profile = get_object_or_404(BusinessProfile, id=kwargs["business_id"], user=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """Asocia el producto al BusinessProfile y lo guarda."""
+        product = form.save(commit=False)
+        product.business = self.business_profile
+        product.save()
+        
+        messages.success(self.request, f"Producto '{product.name}' añadido a {self.business_profile.company_name}.")
+        return redirect("home_app:dashboard")  # Redirigir al dashboard después de guardar
+
+class ProductListView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "dashboard/assistant_product_list.html"
+    context_object_name = "products"
+    paginate_by = 10  # Opcional: paginar resultados
+
+    def get_queryset(self):
+        """Filtrar productos por el BusinessProfile seleccionado"""
+        business_id = self.kwargs.get("business_id")
+        business_profile = get_object_or_404(BusinessProfile, id=business_id, user=self.request.user)
+        return Product.objects.filter(business=business_profile)
+
+    def get_context_data(self, **kwargs):
+        """Agregar el BusinessProfile al contexto para mostrar detalles en la plantilla"""
+        context = super().get_context_data(**kwargs)
+        context["business_profile"] = get_object_or_404(BusinessProfile, id=self.kwargs.get("business_id"))
+        return context
+    
+
+class UpdateProductView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "dashboard/assistant_product_update.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene el producto solo si pertenece a un BusinessProfile del usuario autenticado."""
+        product = get_object_or_404(Product, id=self.kwargs["pk"])
+        
+        # Verifica que el producto pertenece a un BusinessProfile del usuario autenticado
+        if product.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para editar este producto.")
+            return redirect("home_app:dashboard")
+
+        return product
+
+    def form_valid(self, form):
+        """Guarda los cambios y redirige al usuario."""
+        messages.success(self.request, f"Producto '{form.instance.name}' actualizado correctamente.")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """Redirige a la lista de productos después de la actualización."""
+        return reverse_lazy("home_app:product_list", kwargs={"business_id": self.object.business.id})
+
+
+class DeleteProductView(LoginRequiredMixin, DeleteView):
+    model = Product
+    template_name = "dashboard/assistant_confirm_product_delete.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene el producto solo si pertenece a un BusinessProfile del usuario autenticado."""
+        product = get_object_or_404(Product, id=self.kwargs["pk"])
+        
+        # Verifica que el producto pertenece a un BusinessProfile del usuario autenticado
+        if product.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para eliminar este producto.")
+            return redirect("home_app:dashboard")
+
+        return product
+
+    def get_success_url(self):
+        """Redirige a la lista de productos después de la eliminación."""
+        return reverse_lazy("home_app:product_list", kwargs={"business_id": self.object.business.id})
+
+    def delete(self, request, *args, **kwargs):
+        """Muestra un mensaje de confirmación tras la eliminación."""
+        product = self.get_object()
+        messages.success(request, f"Producto '{product.name}' eliminado correctamente.")
+        return super().delete(request, *args, **kwargs)
+    
+
+
+
+#Services:
+
+
+class CreateServiceView(LoginRequiredMixin, FormView):
+    template_name = "dashboard/assistant_service_create.html"
+    form_class = ServiceForm
+
+    def dispatch(self, request, *args, **kwargs):
+        """Verifica que el usuario tenga acceso al BusinessProfile especificado en la URL."""
+        self.business_profile = get_object_or_404(BusinessProfile, id=kwargs["business_id"], user=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Procesa el formulario asegurando que request.FILES esté presente."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        """Asocia el servicio al BusinessProfile y lo guarda."""
+        service = form.save(commit=False)
+        service.business = self.business_profile
+        service.save()
+        
+        messages.success(self.request, f"Servicio '{service.name}' añadido a {self.business_profile.company_name}.")
+        return redirect("home_app:dashboard")  # Redirigir al dashboard después de guardar
+
+class ServiceListView(LoginRequiredMixin, ListView):
+    model = Service
+    template_name = "dashboard/assistant_service_list.html"
+    context_object_name = "services"
+    paginate_by = 10  # Opcional: paginar resultados
+
+    def get_queryset(self):
+        """Filtrar productos por el BusinessProfile seleccionado"""
+        business_id = self.kwargs.get("business_id")
+        business_profile = get_object_or_404(BusinessProfile, id=business_id, user=self.request.user)
+        return Service.objects.filter(business=business_profile)
+
+    def get_context_data(self, **kwargs):
+        """Agregar el BusinessProfile al contexto para mostrar detalles en la plantilla"""
+        context = super().get_context_data(**kwargs)
+        context["business_profile"] = get_object_or_404(BusinessProfile, id=self.kwargs.get("business_id"))
+        return context
+    
+
+class UpdateServiceView(LoginRequiredMixin, UpdateView):
+    model = Service
+    form_class = ServiceForm
+    template_name = "dashboard/assistant_service_update.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene el producto solo si pertenece a un BusinessProfile del usuario autenticado."""
+        service = get_object_or_404(Service, id=self.kwargs["pk"])
+        
+        # Verifica que el producto pertenece a un BusinessProfile del usuario autenticado
+        if service.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para editar este servicio.")
+            return redirect("home_app:dashboard")
+
+        return service
+
+    def form_valid(self, form):
+        """Guarda los cambios y redirige al usuario."""
+        messages.success(self.request, f"Servicio '{form.instance.name}' actualizado correctamente.")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """Redirige a la lista de productos después de la actualización."""
+        return reverse_lazy("home_app:service_list", kwargs={"business_id": self.object.business.id})
+
+
+class DeleteServiceView(LoginRequiredMixin, DeleteView):
+    model = Service
+    template_name = "dashboard/assistant_confirm_service_delete.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene el producto solo si pertenece a un BusinessProfile del usuario autenticado."""
+        service = get_object_or_404(Service, id=self.kwargs["pk"])
+        
+        # Verifica que el producto pertenece a un BusinessProfile del usuario autenticado
+        if service.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para eliminar este servicio.")
+            return redirect("home_app:dashboard")
+
+        return service
+
+    def get_success_url(self):
+        """Redirige a la lista de productos después de la eliminación."""
+        return reverse_lazy("home_app:service_list", kwargs={"business_id": self.object.business.id})
+
+    def delete(self, request, *args, **kwargs):
+        """Muestra un mensaje de confirmación tras la eliminación."""
+        service = self.get_object()
+        messages.success(request, f"Servicio '{service.name}' eliminado correctamente.")
+        return super().delete(request, *args, **kwargs)

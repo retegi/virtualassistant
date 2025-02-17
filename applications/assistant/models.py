@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class BusinessProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="business_profile")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="business_profile")
     company_name = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
     show_company_name = models.BooleanField(default=True, verbose_name="Mostrar nombre de la empresa", blank=True, null=True)
     company_logo = models.ImageField(upload_to='static/assistant/company-logo/', verbose_name="Logo de empresa", blank=True, null=True)
@@ -39,6 +39,7 @@ class Service(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio", blank=True, null=True)
     duration = models.DurationField(verbose_name="Duración Aproximada", blank=True, null=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
+    image = models.ImageField(upload_to="services/", verbose_name="Imagen", blank=True, null=True)
 
 class FAQ(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="faqs")

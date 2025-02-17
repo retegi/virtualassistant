@@ -82,7 +82,7 @@
 
       <div class="col-md-3 text-end">
       {% if user.is_authenticated %}
-        <button type="button" class="btn btn-light me-2">{{ user.username }}</button>
+        <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn btn-light me-2">{{ user.username }}</button></a>
         <a href="{% url 'account_logout' %}"><button type="button" class="btn btn-light me-2">Salir</button></a>
       {% else %}
         <a href="{% url 'account_login' %}"><button type="button" class="btn btn-light me-2">Iniciar sesión</button></a>

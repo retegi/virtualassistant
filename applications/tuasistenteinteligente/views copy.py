@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import JsonResponse
 import openai
 from django.conf import settings
 import json
+import os
+from django.shortcuts import render, get_object_or_404
 from applications.assistant.models import BusinessProfile, Product, Service
 
 MAX_HISTORY = 20  # Máximo número de mensajes en el historial
@@ -64,11 +66,9 @@ def get_bot_response(request, assistant_url_name):
             # Obtener información específica del asistente
             instructions = load_instructions(assistant_url_name)
 
-            # Configurar API Key correctamente
-            openai.api_key = settings.OPENAI_API_KEY
+            openai_client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
 
-            # Realizar la consulta a OpenAI con la versión correcta
-            response = openai.ChatCompletion.create(
+            response = openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": instructions},
@@ -76,7 +76,7 @@ def get_bot_response(request, assistant_url_name):
                 ]
             )
 
-            bot_reply = response['choices'][0]['message']['content']
+            bot_reply = response.choices[0].message.content
 
             print(f"🤖 Respuesta de OpenAI: {bot_reply}")
 
@@ -92,6 +92,9 @@ def end_conversation(request):
     if 'conversation_history' in request.session:
         del request.session['conversation_history']
     return JsonResponse({'status': 'Conversación finalizada'})
+
+
+
 
 def assistant_view(request, assistant_url_name):
     # Buscar el perfil de negocio basado en la URL
