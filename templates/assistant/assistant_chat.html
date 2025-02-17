@@ -57,7 +57,9 @@
 <body>
 
     <div class="container my-5">
+
         <div class="chat-container p-4">
+    
             <!-- Mostrar el logotipo si está habilitado -->
             {% if business_profile.show_company_logo and business_profile.company_logo %}
                 <div class="text-center">
@@ -74,7 +76,10 @@
                 <input type="text" id="user-message" class="form-control" placeholder="Escribe tu mensaje...">
                 <button class="btn" style="background-color: {{ business_profile.button_background_color }}; color: {{ business_profile.button_text_color }};" onclick="sendMessage()">Enviar</button>
             </div>
+                <a href="{{ business_profile.website }}" target="_blank"><button class="btn btn-sm mt-2" style="background-color: {{ business_profile.button_background_color }}; color: {{ business_profile.button_text_color }};">Ir a la web</button></a>
+    
         </div>
+        
     </div>
 
 

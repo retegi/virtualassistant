@@ -117,9 +117,9 @@ body{
                   </div>
               </div>
               
-              <button type="button" class="btn btn-success w-100 w-md-50" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+              <a href="{% url 'account_signup' %}"><button type="button" class="btn btn-success w-100 w-md-50" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                   <b>Crear<br>Asistente Inteligente</b>
-              </button>
+              </button></a>
           </form>
       </div>
   </div>
@@ -148,7 +148,7 @@ body{
             <div class="card text-center p-4 w-100" style="max-width: 320px;">
                 <h1 class="step-number">2</h1>
                 <div class="card-body">
-                    <p class="card-text">Entrena tu asistente con los datos de tu empresa, productos y servicios</p>
+                    <p class="card-text">Completa la información de productos, servicios y ofertas especiales</p>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@ body{
             <div class="card text-center p-4 w-100" style="max-width: 320px;">
                 <h1 class="step-number">3</h1>
                 <div class="card-body">
-                    <p class="card-text">Añade el enlace o código HTML en tu web o aplicación</p>
+                    <p class="card-text">Añade el enlace o código del asistente a tu web</p>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@ body{
     <div class="container py-5">
         <div class="row py-5">
             <div class="col-12 text-center">
-                <h1 class="">Entrena tu asistente con los datos de tu empresa, productos y servicios. Y dile cómo quieres que atienda a tus clientes.</h1>
+                <h2 class="display-6 text-center mb-4">Entrena tu asistente con los datos de tu empresa, productos, servicios y ofertas. Y dile cómo quieres que atienda a tus clientes.</h2>
             </div>
         </div>
     </div>
@@ -178,7 +178,7 @@ body{
 
 <div class="container" id="tarifa">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal text-body-emphasis">Tarifa</h1>
+        <h2 class="display-6 text-center mb-4">Tarifa</h2>
         <p class="fs-5 text-body-secondary">
             Quickly build an effective pricing table for your potential customers with this Bootstrap example. 
             It’s built with default Bootstrap components and utilities with little customization.
@@ -279,8 +279,8 @@ body{
           </thead>
           <tbody>
             <tr>
-              <th scope="row" class="text-start">Descripción detallada de la empresa</th>
-              <td>-</td>
+              <th scope="row" class="text-start">Descripción de la empresa</th>
+              <td>✅</td>
               <td>
                 ✅
               </td>
@@ -288,7 +288,7 @@ body{
             </tr>
             <tr>
               <th scope="row" class="text-start">Información de horarios</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
@@ -296,74 +296,74 @@ body{
           <tbody>
             <tr>
               <th scope="row" class="text-start">Información de contacto</th>
-              <td>✅</td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Información de productos</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Tarifa de productos</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Información de servicios</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Tarifa de servicios</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Memoria de conversación</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Carácter de asistente (formal, informal, cercano, etc.)</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Informes de conversación</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Uso ilimitado 7/24/365</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Panel de gestión</th>
-              <td></td>
+              <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Logo de empresa</th>
-              <td></td>
-              <td></td>
+              <td>-</td>
+              <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
               <th scope="row" class="text-start">Imagen/animación de asistente personalizable</th>
-              <td></td>
-              <td></td>
+              <td>-</td>
+              <td>✅</td>
               <td>✅</td>
             </tr>
           </tbody>
@@ -487,19 +487,7 @@ document.addEventListener("DOMContentLoaded", function () {
 =======================================================-->
 
 
-<div>
-  <div id="chat-box">
-    <!-- Los mensajes del chat se mostrarán aquí -->
-  </div>
-</div>
-<!-- Zona de entrada fija -->
-<div>
-  <form id="message-form" method="post">
-    <input type="text" id="user-message">
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <button>Enviar</button>
-  </form>
-</div>
+
 
 
 

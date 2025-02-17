@@ -62,47 +62,26 @@ def load_instructions(assistant_url_name):
     products = Product.objects.filter(business=business_profile)
     services = Service.objects.filter(business=business_profile)
 
-    # Construcción detallada de la lista de productos
-    product_list = "\n".join([
-        p.get_product_info() for p in products
-    ]) if products.exists() else "No hay productos disponibles."
+    # Construir listas de productos y servicios formateados
+    product_list = "\n".join(
+        [f"- {p.name}: {p.description or 'Sin descripción'}, Precio: {p.price}€" for p in products]
+    ) if products else "No hay productos disponibles."
 
-    # Construcción detallada de la lista de servicios
-    service_list = "\n".join([
-        s.get_service_info() for s in services
-    ]) if services.exists() else "No hay servicios disponibles."
+    service_list = "\n".join(
+        [f"- {s.name}: {s.description or 'Sin descripción'}, Precio: {s.price}€, Duración: {s.duration}" for s in services]
+    ) if services else "No hay servicios disponibles."
 
-    # Construcción detallada de la información del asistente
+    # Construir la información del asistente
     instructions = f"""
-    Eres un asistente virtual de la empresa {business_profile.company_name if business_profile.company_name else "No disponible"}.
+    Eres un asistente virtual de la empresa {business_profile.company_name}. 
     Tu objetivo es proporcionar información sobre la empresa, sus productos y servicios a los clientes.
 
     Información de la empresa:
-    - Nombre de la empresa: {business_profile.company_name if business_profile.company_name else "No disponible"}
-    - Mostrar nombre: {"Sí" if business_profile.show_company_name else "No"}
-    - Descripción: {business_profile.description if business_profile.description else "No disponible"}
-    - Contacto: {business_profile.contact_email if business_profile.contact_email else "No disponible"}, 
-      Teléfono: {business_profile.phone if business_profile.phone else "No disponible"}
-    - Sitio Web: {business_profile.website if business_profile.website else "No disponible"}
-    - Dirección: {business_profile.address if business_profile.address else "No disponible"}
-    - Horario de atención: {json.dumps(business_profile.business_hours, indent=4, ensure_ascii=False) if business_profile.business_hours else "No disponible"}
-    - Redes Sociales: {json.dumps(business_profile.social_media, indent=4, ensure_ascii=False) if business_profile.social_media else "No disponible"}
-
-    Personalización visual:
-    - Imagen del asistente: {business_profile.assistant_image.url if business_profile.assistant_image else "No disponible"}
-    - Mostrar imagen del asistente: {"Sí" if business_profile.show_assistant_image else "No"}
-    - Imagen de fondo: {business_profile.background_image.url if business_profile.background_image else "No disponible"}
-    - Color de fondo de la página: {business_profile.background_color if business_profile.background_color else "No disponible"}
-    - Color de fondo del formulario: {business_profile.form_background_color if business_profile.form_background_color else "No disponible"}
-    - Color de fondo del botón: {business_profile.button_background_color if business_profile.button_background_color else "No disponible"}
-    - Color de texto del botón: {business_profile.button_text_color if business_profile.button_text_color else "No disponible"}
-    - Color de texto del chat del cliente: {business_profile.chat_customer_text_color if business_profile.chat_customer_text_color else "No disponible"}
-    - Color de texto del chat del asistente: {business_profile.chat_assistant_text_color if business_profile.chat_assistant_text_color else "No disponible"}
-
-    Configuración del asistente:
-    - Nombre URL del asistente: {business_profile.assistant_url_name if business_profile.assistant_url_name else "No disponible"}
-    - Logo de empresa: {business_profile.company_logo.url if business_profile.company_logo else "No disponible"}
-    - Mostrar logo de empresa: {"Sí" if business_profile.show_company_logo else "No"}
+    - Descripción: {business_profile.description or "No disponible"}
+    - Contacto: {business_profile.contact_email or "No disponible"}, Teléfono: {business_profile.phone or "No disponible"}
+    - Dirección: {business_profile.address or "No disponible"}
+    - Horario de atención: {business_profile.business_hours or "No disponible"}
+    - Redes Sociales: {business_profile.social_media or "No disponible"}
 
     Productos disponibles:
     {product_list}
@@ -114,7 +93,6 @@ def load_instructions(assistant_url_name):
     """
 
     return instructions
-
 
 def get_bot_response(request, assistant_url_name):
     if request.method == 'POST':

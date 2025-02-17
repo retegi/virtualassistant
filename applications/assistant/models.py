@@ -36,6 +36,24 @@ class Product(models.Model):
     image = models.ImageField(upload_to="products/", verbose_name="Imagen", blank=True, null=True)
     product_url = models.URLField(verbose_name="Url del producto", blank=True, null=True)
 
+    def get_product_info(self):
+        """
+        Devuelve la información completa del producto en un formato legible.
+        """
+        return f"""
+        Producto:
+        - Nombre: {self.name if self.name else "No disponible"}
+        - Descripción: {self.description if self.description else "No disponible"}
+        - Precio: {self.price if self.price is not None else "No disponible"}€
+        - Precio en oferta: {self.offer_price if self.offer_price is not None else "No disponible"}€
+        - Disponible: {"Sí" if self.available else "No"}
+        - En oferta: {"Sí" if self.offer else "No"}
+        - Imagen: {self.image.url if self.image else "No disponible"}
+        - URL del producto: {self.product_url if self.product_url else "No disponible"}
+        """
+    def __str__(self):
+        return self.name if self.name else "Producto sin nombre"
+
 class Service(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="services")
     name = models.CharField(max_length=255, verbose_name="Nombre del Servicio")
@@ -47,6 +65,25 @@ class Service(models.Model):
     offer = models.BooleanField(default=False, verbose_name="¿En oferta?", blank=True, null=True)
     image = models.ImageField(upload_to="services/", verbose_name="Imagen", blank=True, null=True)
     service_url = models.URLField(verbose_name="Url del servicio", blank=True, null=True)
+
+    def get_service_info(self):
+        """
+        Devuelve la información completa del servicio en un formato legible.
+        """
+        return f"""
+        Servicio:
+        - Nombre: {self.name if self.name else "No disponible"}
+        - Descripción: {self.description if self.description else "No disponible"}
+        - Precio: {self.price if self.price is not None else "No disponible"}€
+        - Precio en oferta: {self.offer_price if self.offer_price is not None else "No disponible"}€
+        - Disponible: {"Sí" if self.available else "No"}
+        - En oferta: {"Sí" if self.offer else "No"}
+        - Imagen: {self.image.url if self.image else "No disponible"}
+        - URL del servicio: {self.service_url if self.service_url else "No disponible"}
+        """
+
+    def __str__(self):
+        return self.name if self.name else "Servicio sin nombre"
     
 class FAQ(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="faqs")
