@@ -78,7 +78,7 @@ class CompleteBusinessProfileForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "price", "available", "image","product_url","offer","offer_price"]
+        fields = ["name", "description", "price", "available", "image","product_url","offer","offer_price","product_image1_url","product_image2_url","product_image3_url"]
         
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre del producto"}),
@@ -89,13 +89,16 @@ class ProductForm(forms.ModelForm):
             "offer": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
             "product_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "offer_price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio oferta"}),
+            "product_image1_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "product_image2_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "product_image3_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             
         }
 
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ["name", "description", "price", "available", "image","service_url","offer","offer_price"]
+        fields = ["name", "description", "price", "available", "image","service_url","offer","offer_price","service_image1_url","service_image2_url","service_image3_url"]
         
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre del servicio"}),
@@ -106,5 +109,8 @@ class ServiceForm(forms.ModelForm):
             "offer": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
             "service_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "offer_price": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Precio oferta"}),
+            "service_image1_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "service_image2_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            "service_image3_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             
         }

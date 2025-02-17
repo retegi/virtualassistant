@@ -34,6 +34,10 @@ class Product(models.Model):
     available = models.BooleanField(default=True, verbose_name="Disponible")
     offer = models.BooleanField(default=False, verbose_name="¿En oferta?",blank=True, null=True)
     image = models.ImageField(upload_to="products/", verbose_name="Imagen", blank=True, null=True)
+    product_image1_url = models.URLField(verbose_name="Imagen1 del producto", blank=True, null=True)
+    product_image2_url = models.URLField(verbose_name="Imagen2 del producto", blank=True, null=True)
+    product_image3_url = models.URLField(verbose_name="Imagen3 del producto", blank=True, null=True)
+
     product_url = models.URLField(verbose_name="Url del producto", blank=True, null=True)
 
     def get_product_info(self):
@@ -64,6 +68,9 @@ class Service(models.Model):
     available = models.BooleanField(default=True, verbose_name="Disponible")
     offer = models.BooleanField(default=False, verbose_name="¿En oferta?", blank=True, null=True)
     image = models.ImageField(upload_to="services/", verbose_name="Imagen", blank=True, null=True)
+    service_image1_url = models.URLField(verbose_name="Imagen1 del servicio", blank=True, null=True)
+    service_image2_url = models.URLField(verbose_name="Imagen2 del servicio", blank=True, null=True)
+    service_image3_url = models.URLField(verbose_name="Imagen3 del servicio", blank=True, null=True)
     service_url = models.URLField(verbose_name="Url del servicio", blank=True, null=True)
 
     def get_service_info(self):
