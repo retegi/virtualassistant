@@ -67,21 +67,22 @@
   <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+        <a href="{% url 'home_app:home' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
          <label class="h3 text-success grand-hotel-regular">TuAsistenteInteligente.com</label>
          </a>
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary text-white">Home</a></li>
+        <li><a href="{% url 'home_app:home' %}" class="nav-link px-2 link-secondary text-white">Home</a></li>
         <li><a href="{% url 'home_app:home' %}#tarifa" class="nav-link px-2 text-white">Tarifa</a></li>
-        <li><a href="{% url 'assistant_app:web_assistant' %}" class="nav-link px-2 text-white bg-success">Asistente</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Ayuda</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Contact</a></li>
+        <li><a target="_blank" href="https://www.tuasistenteinteligente.com/tuasistenteinteligente" class="nav-link px-2 text-white bg-success">Asistente</a></li>
+        <!--<li><a href="#" class="nav-link px-2 text-white">Ayuda</a></li>-->
+        <li><a href="{% url 'home_app:home' %}#contact" class="nav-link px-2 text-white">Contact</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
       {% if user.is_authenticated %}
+        <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn me-2 bg-success text-white" id="paneldecontrol">Panel de control</button></a>
         <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn btn-light me-2">{{ user.username }}</button></a>
         <a href="{% url 'account_logout' %}"><button type="button" class="btn btn-light me-2">Salir</button></a>
       {% else %}
@@ -244,7 +245,35 @@
         });
     });
 </script>
-  
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+    let asistenciaButton = document.getElementById("paneldecontrol");
+    if (!asistenciaButton) return;
+
+    let opacity = 1;  // Inicia en visible
+    let fadeOut = true; // Variable para alternar entre aparecer y desaparecer
+    let speed = 5; // Intervalo en milisegundos para hacer el efecto más lento
+
+    function fadeEffect() {
+        if (fadeOut) {
+            opacity -= 0.01; // Reduce opacidad más lentamente
+            if (opacity <= 0.3) { // Cuando llegue al mínimo, cambia dirección
+                fadeOut = false;
+            }
+        } else {
+            opacity += 0.01; // Aumenta opacidad más lentamente
+            if (opacity >= 1) { // Cuando llegue al máximo, cambia dirección
+                fadeOut = true;
+            }
+        }
+        asistenciaButton.style.opacity = opacity;
+        setTimeout(fadeEffect, speed); // Hace la animación más lenta
+    }
+
+    fadeEffect(); // Inicia la animación
+});
+
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

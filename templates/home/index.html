@@ -180,8 +180,7 @@ body{
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h2 class="display-6 text-center mb-4">Tarifa</h2>
         <p class="fs-5 text-body-secondary">
-            Quickly build an effective pricing table for your potential customers with this Bootstrap example. 
-            It’s built with default Bootstrap components and utilities with little customization.
+            Elige la opción que mejor se ajusta a las necesidades de tu empresa, organización o proyecto. Cada día trabajos en mejorar nuestros asistentes para mejorar la experiencia de los usuarios y de tus clientes. Contacta con nosotros y te informaremos sin compromiso.
         </p>
     </div>
 
@@ -265,7 +264,7 @@ body{
 <div class="w-100 bg-light p-5">
   <div class="container">
     <div class="row">
-      <h2 class="display-6 text-center mb-4">Compare plans</h2>
+      <h2 class="display-6 text-center mb-4">Plan a tu medida</h2>
 
       <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">
@@ -278,6 +277,12 @@ body{
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <th scope="row" class="text-start">Panel de gestión de asistentes</th>
+              <td>✅</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
             <tr>
               <th scope="row" class="text-start">Descripción de la empresa</th>
               <td>✅</td>
@@ -301,31 +306,31 @@ body{
               <td>✅</td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Información de productos</th>
+              <th scope="row" class="text-start">Productos: Información, precios y promociones</th>
               <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Tarifa de productos</th>
+              <th scope="row" class="text-start">Productos: Venta directa</th>
               <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Información de servicios</th>
+              <th scope="row" class="text-start">Servicios: Información, precios y promociones</th>
               <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Tarifa de servicios</th>
+              <th scope="row" class="text-start">Servicios: Venta directa</th>
               <td>-</td>
               <td>✅</td>
               <td>✅</td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Memoria de conversación</th>
+              <th scope="row" class="text-start">Preguntas y respuestas</th>
               <td>-</td>
               <td>✅</td>
               <td>✅</td>
@@ -348,12 +353,7 @@ body{
               <td>✅</td>
               <td>✅</td>
             </tr>
-            <tr>
-              <th scope="row" class="text-start">Panel de gestión</th>
-              <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
-            </tr>
+            
             <tr>
               <th scope="row" class="text-start">Logo de empresa</th>
               <td>-</td>
@@ -366,6 +366,12 @@ body{
               <td>✅</td>
               <td>✅</td>
             </tr>
+            <tr>
+              <th scope="row" class="text-start"><button class="btn bg-success text-white w-100" id="asistenciatecnica"><b>Asistencia técnica/telefónica</b></button></th>
+              <td>-</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -374,7 +380,7 @@ body{
 </div>
 
 
-<div class="bg-white">
+<div class="bg-white" id="contact">
   <div class="container p-5">
 
     <div class="row">
@@ -441,6 +447,35 @@ body{
   </div>
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let asistenciaButton = document.getElementById("asistenciatecnica");
+    if (!asistenciaButton) return;
+
+    let opacity = 1;  // Inicia en visible
+    let fadeOut = true; // Variable para alternar entre aparecer y desaparecer
+    let speed = 20; // Intervalo en milisegundos para hacer el efecto más lento
+
+    function fadeEffect() {
+        if (fadeOut) {
+            opacity -= 0.01; // Reduce opacidad más lentamente
+            if (opacity <= 0.3) { // Cuando llegue al mínimo, cambia dirección
+                fadeOut = false;
+            }
+        } else {
+            opacity += 0.01; // Aumenta opacidad más lentamente
+            if (opacity >= 1) { // Cuando llegue al máximo, cambia dirección
+                fadeOut = true;
+            }
+        }
+        asistenciaButton.style.opacity = opacity;
+        setTimeout(fadeEffect, speed); // Hace la animación más lenta
+    }
+
+    fadeEffect(); // Inicia la animación
+});
+
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
