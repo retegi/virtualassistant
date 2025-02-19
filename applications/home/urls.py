@@ -43,5 +43,10 @@ urlpatterns = [
     path("edit-service/<int:pk>/", views.UpdateServiceView.as_view(), name="update_service"),
     path("delete-service/<int:pk>/", views.DeleteServiceView.as_view(), name="delete_service"),
 
+    #FAQ Preguntas y respuestas
+    path("create-faq/<int:business_id>/", views.FAQCreateView.as_view(), name="create_faq"),
+    path("business/<int:business_id>/faq/", views.FAQListView.as_view(), name="list_faq"),
+    path("edit-faq/<int:pk>/", views.FAQUpdateView.as_view(), name="update_faq"),
+    path("delete-faq/<int:pk>/", views.FAQDeleteView.as_view(), name="delete_faq"),
 
 ]

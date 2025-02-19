@@ -58,10 +58,9 @@ def load_instructions(assistant_url_name):
     # Obtener el perfil de negocio
     business_profile = get_object_or_404(BusinessProfile, assistant_url_name=assistant_url_name)
 
-    # Obtener productos, servicios y preguntas frecuentes relacionadas
+    # Obtener productos y servicios relacionados
     products = Product.objects.filter(business=business_profile)
     services = Service.objects.filter(business=business_profile)
-    faqs = FAQ.objects.filter(business=business_profile)
 
     # Construcción detallada de la lista de productos
     product_list = "\n".join([
@@ -73,15 +72,10 @@ def load_instructions(assistant_url_name):
         s.get_service_info() for s in services
     ]) if services.exists() else "No hay servicios disponibles."
 
-    # Construcción detallada de la lista de preguntas frecuentes
-    faq_list = "\n".join([
-        f"Pregunta: {faq.question}\nRespuesta: {faq.answer}" for faq in faqs
-    ]) if faqs.exists() else "No hay preguntas frecuentes disponibles."
-
     # Construcción detallada de la información del asistente
     instructions = f"""
     Eres un asistente virtual de la empresa {business_profile.company_name if business_profile.company_name else "No disponible"}.
-    Tu objetivo es proporcionar información sobre la empresa, sus productos, servicios y preguntas frecuentes a los clientes.
+    Tu objetivo es proporcionar información sobre la empresa, sus productos y servicios a los clientes.
 
     🔹 **Importante**: 
     - Si la respuesta incluye una imagen, debes devolver solo la URL completa de la imagen, sin ningún texto adicional ni formato Markdown.
@@ -121,14 +115,10 @@ def load_instructions(assistant_url_name):
     Servicios ofrecidos:
     {service_list}
 
-    Preguntas frecuentes:
-    {faq_list}
-
     Responde a las preguntas de los clientes basándote en esta información.
     """
 
     return instructions
-
 
 
 def get_bot_response(request, assistant_url_name):

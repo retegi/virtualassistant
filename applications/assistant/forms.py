@@ -1,5 +1,5 @@
 from django import forms
-from .models import BusinessProfile, Product, Service
+from .models import BusinessProfile, Product, Service, FAQ
 
 class BusinessProfileForm(forms.ModelForm):
     
@@ -113,4 +113,15 @@ class ServiceForm(forms.ModelForm):
             "service_image2_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             "service_image3_url":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
             
+        }
+
+
+class FAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ["question", "answer"]
+        
+        widgets = {
+            "question": forms.TextInput(attrs={"class": "form-control", "placeholder": "Pregunta"}),
+            "answer": forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "Respuesta"}),            
         }

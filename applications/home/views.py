@@ -9,7 +9,7 @@ from django.views.generic import (
     ListView,
 )
 from applications.assistant.models import BusinessProfile, Product, Service, FAQ, Promotion, CustomResponses
-from applications.assistant.forms import BusinessProfileForm, CompleteBusinessProfileForm, ProductForm, ServiceForm
+from applications.assistant.forms import BusinessProfileForm, CompleteBusinessProfileForm, ProductForm, ServiceForm, FAQForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import Http404
@@ -309,3 +309,109 @@ class DeleteServiceView(LoginRequiredMixin, DeleteView):
         service = self.get_object()
         messages.success(request, f"Servicio '{service.name}' eliminado correctamente.")
         return super().delete(request, *args, **kwargs)
+
+
+#FAQ
+
+class FAQListView(LoginRequiredMixin, ListView):
+    model = FAQ
+    template_name = "dashboard/assistant_faq_list.html"
+    context_object_name = "faqs"
+    paginate_by = 10  # Opcional: paginar resultados
+
+    def get_queryset(self):
+        """Filtrar preguntas frecuentes por el BusinessProfile seleccionado"""
+        business_id = self.kwargs.get("business_id")
+        business_profile = get_object_or_404(BusinessProfile, id=business_id, user=self.request.user)
+        return FAQ.objects.filter(business=business_profile)
+
+    def get_context_data(self, **kwargs):
+        """Agregar el BusinessProfile al contexto para mostrar detalles en la plantilla"""
+        context = super().get_context_data(**kwargs)
+        context["business_profile"] = get_object_or_404(BusinessProfile, id=self.kwargs.get("business_id"))
+        return context
+    
+
+
+class FAQCreateView(LoginRequiredMixin, FormView):
+    template_name = "dashboard/assistant_faq_create.html"
+    form_class = FAQForm
+
+    def dispatch(self, request, *args, **kwargs):
+        """Verifica que el usuario tenga acceso al BusinessProfile especificado en la URL."""
+        self.business_profile = get_object_or_404(BusinessProfile, id=kwargs["business_id"], user=request.user)
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Procesa el formulario asegurando que request.FILES esté presente."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        """Asocia la pregunta frecuente al BusinessProfile y la guarda."""
+        faq = form.save(commit=False)
+        faq.business = self.business_profile
+        faq.save()
+        
+        messages.success(self.request, f"Pregunta frecuente añadida a {self.business_profile.company_name}.")
+        return redirect("home_app:list_faq")  # Redirigir al dashboard después de guardar
+    
+
+
+
+
+class FAQDeleteView(LoginRequiredMixin, DeleteView):
+    model = FAQ
+    template_name = "dashboard/assistant_confirm_faq_delete.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene la pregunta frecuente solo si pertenece a un BusinessProfile del usuario autenticado."""
+        faq = get_object_or_404(FAQ, id=self.kwargs["pk"])
+        
+        # Verifica que la pregunta frecuente pertenece a un BusinessProfile del usuario autenticado
+        if faq.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para eliminar esta pregunta frecuente.")
+            return redirect("home_app:list_faq")
+
+        return faq
+
+    def get_success_url(self):
+        """Redirige a la lista de preguntas frecuentes después de la eliminación."""
+        return reverse_lazy("home_app:list_faq", kwargs={"business_id": self.object.business.id})
+
+    def delete(self, request, *args, **kwargs):
+        """Muestra un mensaje de confirmación tras la eliminación."""
+        faq = self.get_object()
+        messages.success(request, f"Pregunta frecuente eliminada correctamente.")
+        return super().delete(request, *args, **kwargs)
+
+
+
+
+class FAQUpdateView(LoginRequiredMixin, UpdateView):
+    model = FAQ
+    form_class = FAQForm
+    template_name = "dashboard/assistant_faq_update.html"
+
+    def get_object(self, queryset=None):
+        """Obtiene la pregunta frecuente solo si pertenece a un BusinessProfile del usuario autenticado."""
+        faq = get_object_or_404(FAQ, id=self.kwargs["pk"])
+        
+        # Verifica que la pregunta frecuente pertenece a un BusinessProfile del usuario autenticado
+        if faq.business.user != self.request.user:
+            messages.error(self.request, "No tienes permiso para editar esta pregunta frecuente.")
+            return redirect("home_app:dashboard")
+
+        return faq
+
+    def form_valid(self, form):
+        """Guarda los cambios y redirige al usuario."""
+        messages.success(self.request, f"Pregunta frecuente actualizada correctamente.")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """Redirige a la lista de preguntas frecuentes después de la actualización."""
+        return reverse_lazy("home_app:list_faq", kwargs={"business_id": self.object.business.id})
