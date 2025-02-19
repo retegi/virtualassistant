@@ -311,6 +311,7 @@ class DeleteServiceView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+
 #FAQ
 
 class FAQListView(LoginRequiredMixin, ListView):
