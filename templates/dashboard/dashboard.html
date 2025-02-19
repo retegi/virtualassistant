@@ -1,19 +1,19 @@
 {% extends "base_dashboard.html" %}
 {% block content%}
 
-<main role="main" class="col-md-9 ms-auto col-lg-10 px-4">
+<main role="main" class="col-md-9 ms-auto col-lg-10 px-4 mt-5">
   <!-- Encabezado del Dashboard -->
   <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2 fw-bold">Dashboard</h1>
-      <a href="{% url 'home_app:assistant_create' %}" class="btn btn-success text-white">
-          <i class="bi bi-plus-lg"></i> Nuevo asistente
+      <h1 class="h2 fw-bold mt-3">Panel de control</h1>
+      <a href="{% url 'home_app:assistant_create' %}" class="btn btn-success text-white mt-3">
+          <i class="bi bi-plus-lg"></i> Crear nuevo asistente
       </a>
   </div>
 
   <!-- Contenedor de la tabla -->
   <div class="container-fluid">
   <div class="row text-left p-3" style="background-color: #DAF7A6;">
-    <p class="">Nota: Crea tu asistente y añade productos, servicios y, preguntas y respuestas con el mayor detalle posible. Así tus clientes serán mejor atendidos. En el caso de necesitar ayuda puedes contactar con nosotros. (El plan gratuito no inclute ayuda ni asistencia técnica).</p>
+    <p class="">Nota: Crea tu asistente y añade productos, servicios, preguntas y respuestas con el mayor detalle posible. Así el asistente será mejor entrenado y la atención hacia los clientes será más concreta y detallada. En el caso de necesitar ayuda puedes contactar con nosotros. (El plan gratuito no incluye ayuda ni asistencia técnica).</p>
   </div>
       <div class="row">
           <div class="col-12">
@@ -24,10 +24,10 @@
                           <tr>
                               <th scope="col" class="px-2 text-start"></th>
                               <th scope="col" class="px-2 text-start">Asistente</th>
-                              <th scope="col" class="px-2">Opciones</th>
+                              <th scope="col" class="px-2">Información general</th>
                               <th scope="col" class="px-2">Productos</th>
                               <th scope="col" class="px-2">Servicios</th>
-                              <th scope="col" class="px-2">Pregunatas y respuestas</th>
+                              <th scope="col" class="px-2">Preguntas y respuestas</th>
                               <th scope="col" class="px-2">Probar asistente</th>
                           </tr>
                       </thead>
@@ -48,35 +48,38 @@
                                   </a>
                               </td>
                               <td>
-                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                              <a href="{% url 'home_app:create_product' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                      <i class="bi bi-plus-lg"></i> Añadir
+                                  </a>
+                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
                                       <i class="bi bi-box"></i> Ver productos
-                                  </a>
-                                  <a href="{% url 'home_app:create_product' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-plus-lg"></i> Añadir
-                                  </a>
-                              </td>
-                           
-                              <td>
-                                  <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-wrench"></i> Ver servicios
-                                  </a>
-                                  <a href="{% url 'home_app:create_service' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-plus-lg"></i> Añadir
-                                  </a>
-                              </td>
-                              <td>
-                                    <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-wrench"></i> Ver preguntas y respuestas
-                                  </a>
-                                  <a href="{% url 'home_app:create_faq' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
                                   
                               </td>
+                           
+                              <td>
+                                <a href="{% url 'home_app:create_service' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                    <i class="bi bi-plus-lg"></i> Añadir
+                                </a>
+                                <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                    <i class="bi bi-wrench"></i> Ver servicios
+                                </a>
+                                  
+                              </td>
+                              <td>
+                                <a href="{% url 'home_app:create_faq' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                    <i class="bi bi-plus-lg"></i> Añadir
+                                </a>
+                                <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                    <i class="bi bi-wrench"></i> Ver preguntas y respuestas
+                                </a>
+                                  
+                                  
+                              </td>
                              <td>
-                                  <button class="btn btn-success btn-sm p-3">
+                                  <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" target="_blank"><button class="btn btn-success btn-sm p-3 w-100">
                                       <b>Probar<br>asistente</b>
-                                  </button>
+                                  </button></a>
                               </td>
                           </tr>
                           {% endfor %}
