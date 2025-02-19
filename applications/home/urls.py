@@ -26,6 +26,7 @@ urlpatterns = [
         views.DashboardView.as_view(),
         name='dashboard',
     ),
+
     path('assistant/<int:pk>/', views.AssistantProfileDetailView.as_view(), name='assistant_detail'),
     path('assistant-create/', views.AssistantCreateView.as_view(), name='assistant_create'),
     path('assistant-update/<int:pk>', views.AssistantUpdateView.as_view(), name='assistant_update'),

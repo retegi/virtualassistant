@@ -1,0 +1,5 @@
+cuando creas  el allauth de django, te pedirá en algun momento 'PyJWT<2.4.0' 
+asegurate de que instalar este versiión para que funcione, ya que normalmente 
+se instala la 2.8.0 pero este no es la adecuada o hasta el momento no hemos
+conseguido configurarla
+

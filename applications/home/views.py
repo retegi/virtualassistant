@@ -309,3 +309,4 @@ class DeleteServiceView(LoginRequiredMixin, DeleteView):
         service = self.get_object()
         messages.success(request, f"Servicio '{service.name}' eliminado correctamente.")
         return super().delete(request, *args, **kwargs)
+
