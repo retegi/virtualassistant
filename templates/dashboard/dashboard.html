@@ -12,6 +12,9 @@
 
   <!-- Contenedor de la tabla -->
   <div class="container-fluid">
+  <div class="row text-left p-3" style="background-color: #DAF7A6;">
+    <p class="">Nota: Crea tu asistente y añade productos, servicios y, preguntas y respuestas con el mayor detalle posible. Así tus clientes serán mejor atendidos. En el caso de necesitar ayuda puedes contactar con nosotros. (El plan gratuito no inclute ayuda ni asistencia técnica).</p>
+  </div>
       <div class="row">
           <div class="col-12">
               <!-- Tabla de asistentes -->
@@ -19,18 +22,19 @@
                   <table class="table table-striped table-hover align-middle">
                       <thead class="bg-dark text-white text-center">
                           <tr>
-                              <th scope="col" class="px-2 text-start">#</th>
+                              <th scope="col" class="px-2 text-start"></th>
                               <th scope="col" class="px-2 text-start">Asistente</th>
                               <th scope="col" class="px-2">Opciones</th>
                               <th scope="col" class="px-2">Productos</th>
                               <th scope="col" class="px-2">Servicios</th>
-                              <th scope="col" class="px-2">Prueba</th>
+                              <th scope="col" class="px-2">Pregunatas y respuestas</th>
+                              <th scope="col" class="px-2">Probar asistente</th>
                           </tr>
                       </thead>
                       <tbody>
                           {% for dato in my_assistants %}
                           <tr class="text-center">
-                              <th scope="row" class="fw-semibold text-start px-2">{{ forloop.counter }}</th>
+                              <th scope="row" class="fw-semibold text-start">{{ forloop.counter }}</th>
                               <td class="fw-semibold text-start px-2">{{ dato.assistant_url_name }}</td>
                               <td>
                                   <a href="{% url 'home_app:assistant_detail' dato.id %}" class="btn btn-sm btn-outline-success m-1">
@@ -43,7 +47,7 @@
                                       <i class="bi bi-trash"></i> Eliminar
                                   </a>
                               </td>
-                              <td class="d-flex flex-column">
+                              <td>
                                   <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
                                       <i class="bi bi-box"></i> Ver productos
                                   </a>
@@ -51,7 +55,8 @@
                                       <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
                               </td>
-                              <td class="d-flex flex-column">
+                           
+                              <td>
                                   <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
                                       <i class="bi bi-wrench"></i> Ver servicios
                                   </a>
@@ -60,8 +65,17 @@
                                   </a>
                               </td>
                               <td>
-                                  <button class="btn btn-success btn-sm">
-                                      <i class="bi bi-robot"></i> Probar
+                                    <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                      <i class="bi bi-wrench"></i> Ver preguntas y respuestas
+                                  </a>
+                                  <a href="{% url 'home_app:create_faq' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                      <i class="bi bi-plus-lg"></i> Añadir
+                                  </a>
+                                  
+                              </td>
+                             <td>
+                                  <button class="btn btn-success btn-sm p-3">
+                                      <b>Probar<br>asistente</b>
                                   </button>
                               </td>
                           </tr>
@@ -70,106 +84,8 @@
                   </table>
               </div>
 
-<<<<<<< HEAD
-          <div class="col-1">
-          </div>
-          <div class="col-11">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Nº</th>
-                  <th scope="col">Asistente</th>
-                  <th scope="col">Opciones del asistente</th>
-                  <th scope="col">Productos</th>
-                  <th scope="col">Servicios</th>
-                  <th scope="col">Preguntas y respuestas</th>
-                  
-                  <th scope="col">Probar mi asistente</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for dato in my_assistants %}
-                <tr>
-                  <th scope="row">1</th>
-                  <td>{{ dato.assistant_url_name }}</td>
-                  <td>
-                  <a href="{% url 'home_app:assistant_detail' dato.id %}"><button class="btn bg-success text-white m-1">Ver detalles</button></a><a href="{% url 'home_app:assistant_update' dato.id %}"><button class="btn bg-secondary text-white m-1">Modificar datos</button></a><a href="{% url 'home_app:assistant_delete' dato.id %}"><button class="btn bg-danger text-white m-1">Eliminar asistente</button></a></td>
-                  <td><a href="{% url 'home_app:product_list' dato.id %}"><button class="btn btn-primary m-1 w-100">Ver</button><br>
-                  <a href="{% url 'home_app:create_product' dato.id %}"><button class="btn btn-primary m-1 w-100">Añadir</button></a><br></td>
-                  <td><a href="{% url 'home_app:service_list' dato.id %}"><button class="btn btn-primary m-1 w-100">Ver</button></a><br>
-                   <a href="{% url 'home_app:create_service' dato.id %}"><button class="btn btn-primary m-1 w-100">Añadir</button></a><br></td>
-                  <td><a href="{% url 'home_app:list_faq' dato.id %}"><button class="btn btn-primary m-1 w-100">Ver</button></a><br>
-                   <a href="{% url 'home_app:create_faq' dato.id %}"><button class="btn btn-primary m-1 w-100">Añadir</button></a><br></td>
-                  <td><button class="btn btn-success m-1 w-100">Probar asistente</button></td>
-                </tr>
-             {% endfor %}
-                
-               
-              </tbody>
-            </table>
 
-
-            <table class="table mt-5">
-              <thead>
-                <tr>
-                  <th scope="col">Nº</th>
-                  <th scope="col">Asistente</th>
-                  <th scope="col">Url del asistente</th>
-                 
-                </tr>
-              </thead>
-              <tbody>
-              {% for dato in my_assistants %}
-                <tr>
-                  <th scope="row">1</th>
-                  <td>{{ dato.assistant_url_name }}</td>
-                  
-                  <td>La url de tu asistente es: <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name}}">https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}</a></td>
-                </tr>
-              {% endfor %}
-                
-               
-              </tbody>
-            </table>
-            </div>
           
-
-            </div>
-            
-              
-            
-=======
-              <!-- Tabla de URLs -->
-              <div class="mt-4">
-                  <h4 class="fw-bold text-center">URLs de asistentes</h4>
-                  <div class="table-responsive">
-                      <table class="table table-striped align-middle">
-                          <thead class="bg-dark text-white text-center">
-                              <tr>
-                                  <th scope="col" class="px-2 text-start">#</th>
-                                  <th scope="col" class="px-2 text-start">Asistente</th>
-                                  <th scope="col" class="px-2">URL</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              {% for dato in my_assistants %}
-                              <tr class="text-center">
-                                  <th scope="row" class="fw-semibold text-start px-2">{{ forloop.counter }}</th>
-                                  <td class="fw-semibold text-start px-2">{{ dato.assistant_url_name }}</td>
-                                  <td>
-                                      <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" class="text-decoration-none" target="_blank">
-                                          <i class="bi bi-link-45deg"></i> https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}
-                                      </a>
-                                  </td>
-                              </tr>
-                              {% endfor %}
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
->>>>>>> 9375967b7923b04d44c9e370bc334a26baa92e83
-
-          </div>
       </div>
   </div>
 </main>
