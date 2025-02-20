@@ -13,7 +13,16 @@
   <!-- Contenedor de la tabla -->
   <div class="container-fluid">
   <div class="row text-left p-3" style="background-color: #DAF7A6;">
-    <p class="">Nota: Crea tu asistente y añade productos, servicios, preguntas y respuestas con el mayor detalle posible. Así el asistente será mejor entrenado y la atención hacia los clientes será más concreta y detallada. En el caso de necesitar ayuda puedes contactar con nosotros. (El plan gratuito no incluye ayuda ni asistencia técnica).</p>
+{% if subscription_type == "free" %}
+    <p class="text-red-500 font-bold"><b>Tienes una cuenta FREE</b>. Considera actualizar a Premium para desbloquear más funcionalidades.</p>
+{% elif subscription_type == "premium_monthly" %}
+    <p class="text-green-500 font-bold">Eres un cliente PREMIUM MENSUAL. ¡Disfruta de todas las funciones disponibles!</p>
+{% elif subscription_type == "premium_annual" %}
+    <p class="text-blue-500 font-bold">Eres un cliente PREMIUM ANUAL. ¡Gracias por tu suscripción a largo plazo!</p>
+{% endif %}
+
+
+    <p class="">Nota: Crea tu asistente y añade productos, servicios, preguntas y respuestas con el mayor detalle posible. Así el asistente será mejor entrenado y la atención hacia los clientes será más concreta y detallada. En el caso de necesitar ayuda puedes contactar con nosotros. (El plan PREMIUM incluye ayuda y asistencia técnica).</p>
   </div>
       <div class="row">
           <div class="col-12">
@@ -48,38 +57,80 @@
                                   </a>
                               </td>
                               <td>
+                               {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Añadir
+                                </button>
+                              {% else %}
                               <a href="{% url 'home_app:create_product' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
                                       <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
+                                {% endif %}
+
+                                {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Ver
+                                </button>
+                              {% else %}
                                   <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
-                                      <i class="bi bi-box"></i> Ver productos
+                                      <i class="bi bi-box"></i> Ver
                                   </a>
+                                {% endif %}
                                   
                               </td>
                            
                               <td>
+                              {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Añadir
+                                </button>
+                              {% else %}
                                 <a href="{% url 'home_app:create_service' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
                                     <i class="bi bi-plus-lg"></i> Añadir
                                 </a>
+                            {% endif %}
+                            {% if subscription_type == "free" %}
+                               <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Ver
+                                </button>
+                              {% else %}
                                 <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
                                     <i class="bi bi-wrench"></i> Ver servicios
                                 </a>
-                                  
+                               {% endif %}   
                               </td>
                               <td>
+                              {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Añadir
+                                </button>
+                              {% else %}
                                 <a href="{% url 'home_app:create_faq' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
                                     <i class="bi bi-plus-lg"></i> Añadir
                                 </a>
+                                {% endif %}
+                                {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                    Ver
+                                </button>
+                              {% else %}
                                 <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
                                     <i class="bi bi-wrench"></i> Ver preguntas y respuestas
                                 </a>
+                                {% endif %}
                                   
                                   
                               </td>
                              <td>
+                             {% if subscription_type == "free" %}
+                                <button type="button" class="btn btn-success btn-sm p-3 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal2">
+                                    <b>Probar<br>asistente</b>
+                                </button>
+                                {% else %}
                                   <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" target="_blank"><button class="btn btn-success btn-sm p-3 w-100">
                                       <b>Probar<br>asistente</b>
                                   </button></a>
+                                  {% endif %}
                               </td>
                           </tr>
                           {% endfor %}
@@ -87,11 +138,60 @@
                   </table>
               </div>
 
+<!-- Botón para abrir el modal -->
 
-          
+
+<!-- Modal Pasate a premium -->
+<div class="modal fade" id="upgradeModal" tabindex="-1" aria-labelledby="upgradeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="upgradeModalLabel">Actualiza tu cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="fw-bold text-center">🚀 Pásate a <span class="text-primary">Premium</span> para activar todas las funcionalidades.</p>
+                <p class="text-center">Disfruta de más herramientas, soporte y una mejor experiencia.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="{% url 'home_app:home' %}#tarifa" class="btn btn-primary">Mejorar a Premium</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal ver asistente pero puedes pasar a premium -->
+<div class="modal fade" id="upgradeModal2" tabindex="-1" aria-labelledby="upgradeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="upgradeModalLabel">Actualiza tu cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="fw-bold text-center">🚀 Pásate a <span class="text-primary">Premium</span> para activar todas las funcionalidades.</p>
+                <p class="text-center">Disfruta de más herramientas, soporte y una mejor experiencia.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" target="_blank" class="btn btn-success">Probar asistente</a>
+                <a href="{% url 'home_app:home' %}#tarifa" class="btn btn-primary">Mejorar a Premium</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (Asegúrate de incluirlo) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
       </div>
   </div>
 </main>
+
 
 
 {% endblock %}

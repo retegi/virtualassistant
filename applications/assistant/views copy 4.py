@@ -14,7 +14,7 @@ from django.http import JsonResponse
 import openai
 from django.conf import settings
 import json
-from applications.home.models import SubscriptionType, CustomerProfile
+from applications.assistant.models import BusinessProfile, Product, Service
 
 
 
@@ -51,44 +51,32 @@ MAX_HISTORY = 20  # Máximo número de mensajes en el historial
 def chat_view(request):
     return render(request, 'home/chat.html')
 
-
-
 def load_instructions(assistant_url_name):
     """
     Carga las instrucciones del asistente basado en el BusinessProfile asociado al assistant_url_name.
     """
-
     # Obtener el perfil de negocio
     business_profile = get_object_or_404(BusinessProfile, assistant_url_name=assistant_url_name)
 
-    # Obtener el perfil de cliente (CustomerProfile) asociado al usuario del BusinessProfile
-    customer_profile = get_object_or_404(CustomerProfile, user=business_profile.user)
+    # Obtener productos, servicios y preguntas frecuentes relacionadas
+    products = Product.objects.filter(business=business_profile)
+    services = Service.objects.filter(business=business_profile)
+    faqs = FAQ.objects.filter(business=business_profile)
 
-    # Verificar el tipo de suscripción del usuario
-    if customer_profile.subscription_type in [SubscriptionType.PREMIUM_MONTHLY, SubscriptionType.PREMIUM_ANNUAL]:
-        products = Product.objects.filter(business=business_profile)
-        services = Service.objects.filter(business=business_profile)
-        faqs = FAQ.objects.filter(business=business_profile)
+    # Construcción detallada de la lista de productos
+    product_list = "\n".join([
+        p.get_product_info() for p in products
+    ]) if products.exists() else "No hay productos disponibles."
 
-        # Construcción detallada de la lista de productos
-        product_list = "\n".join([
-            p.get_product_info() for p in products
-        ]) if products.exists() else "No hay productos disponibles."
+    # Construcción detallada de la lista de servicios
+    service_list = "\n".join([
+        s.get_service_info() for s in services
+    ]) if services.exists() else "No hay servicios disponibles."
 
-        # Construcción detallada de la lista de servicios
-        service_list = "\n".join([
-            s.get_service_info() for s in services
-        ]) if services.exists() else "No hay servicios disponibles."
-
-        # Construcción detallada de la lista de preguntas frecuentes
-        faq_list = "\n".join([
-            f"Pregunta: {faq.question}\nRespuesta: {faq.answer}" for faq in faqs
-        ]) if faqs.exists() else "No hay preguntas frecuentes disponibles."
-
-    else:
-        product_list = "No disponible en la versión gratuita."
-        service_list = "No disponible en la versión gratuita."
-        faq_list = "No disponible en la versión gratuita."
+    # Construcción detallada de la lista de preguntas frecuentes
+    faq_list = "\n".join([
+        f"Pregunta: {faq.question}\nRespuesta: {faq.answer}" for faq in faqs
+    ]) if faqs.exists() else "No hay preguntas frecuentes disponibles."
 
     # Construcción detallada de la información del asistente
     instructions = f"""
@@ -140,7 +128,6 @@ def load_instructions(assistant_url_name):
     """
 
     return instructions
-
 
 
 

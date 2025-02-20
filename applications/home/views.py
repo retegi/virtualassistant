@@ -9,6 +9,7 @@ from django.views.generic import (
     ListView,
 )
 from applications.assistant.models import BusinessProfile, Product, Service, FAQ, Promotion, CustomResponses
+from .models import CustomerProfile, SubscriptionType
 from applications.assistant.forms import BusinessProfileForm, CompleteBusinessProfileForm, ProductForm, ServiceForm, FAQForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -50,10 +51,16 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        # Filtrar los perfiles de negocio por el usuario autenticado
+        # Obtener el usuario autenticado
         user = self.request.user
+        
+        # Filtrar los perfiles de negocio por el usuario autenticado
         context['my_assistants'] = BusinessProfile.objects.filter(user=user)
         
+        # Obtener el perfil de cliente y la suscripción
+        customer_profile = CustomerProfile.objects.filter(user=user).first()
+        context['subscription_type'] = customer_profile.subscription_type if customer_profile else "free"
+
         return context
     
 class AssistantProfileDetailView(LoginRequiredMixin, DetailView):
