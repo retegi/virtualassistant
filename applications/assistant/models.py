@@ -16,7 +16,7 @@ class BusinessProfile(models.Model):
     button_text_color = models.CharField(max_length=255, verbose_name="Color HTML de texto del botón", default="white", blank=True, null=True)
     chat_customer_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del cliente", default="#333", blank=True, null=True)
     chat_assistant_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del asistente", default="#333", blank=True, null=True)
-    assistant_url_name = models.CharField(max_length=255, verbose_name="Nombre url", blank=True, null=True)
+    assistant_url_name = models.CharField(max_length=255, verbose_name="Nombre url", blank=True, null=True, unique=True)
     description = models.TextField(verbose_name="Descripción de la Empresa", blank=True, null=True)
     contact_email = models.EmailField(verbose_name="Correo Electrónico de Contacto", blank=True, null=True)
     phone = models.CharField(max_length=20, verbose_name="Teléfono", blank=True, null=True)
