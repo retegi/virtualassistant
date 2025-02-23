@@ -15,6 +15,7 @@ distro==1.9.0
 Django==5.1.5
 django-allauth==65.4.1
 django-allauth-ui==1.5.3
+django-recaptcha==4.0.0
 django-widget-tweaks==1.5.0
 exceptiongroup==1.2.2
 frozenlist==1.5.0
@@ -31,7 +32,7 @@ propcache==0.2.1
 pycparser==2.22
 pydantic==2.10.6
 pydantic_core==2.27.2
-PyJWT==2.8.0
+PyJWT==2.3.0
 PyYAML==6.0.2
 requests==2.32.3
 slippers==0.6.2
