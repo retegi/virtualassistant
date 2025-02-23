@@ -3,6 +3,11 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+
+
+
+
 app_name = 'home_app'
 
 urlpatterns = [
@@ -10,6 +15,9 @@ urlpatterns = [
         views.HomePageView.as_view(),
         name='home',
     ),
+
+    path('formulario/', views.formulario_contactar, name='formulario_contactar'),
+
     path('tarifa/',
         views.TarifaPageView.as_view(),
         name='tarifa',

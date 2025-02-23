@@ -1,4 +1,4 @@
-{% extends "base.html" %}}
+{% extends "base.html" %}
 {% load static %}
 
 {% block head %}
@@ -380,46 +380,93 @@ body{
 </div>
 
 
+
+
+
 <div class="bg-white" id="contact">
   <div class="container p-5">
-
+    
     <div class="row">
-      <div class="12 text-center">
-        <h1 class="">Contactar</h1>
+      <div class="col-12 text-center">
+        <h1>Contactar</h1>
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="col-12">
-        <form>
-          <div class="form-group mt-1">
-            <label for="exampleFormControlInput1">Email</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
-          </div>
-          <div class="form-group mt-1">
-            <label for="exampleFormControlInput1">Nombre</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="">
-          </div>
-          <div class="form-group mt-1">
-            <label for="exampleFormControlInput1">Teléfono</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="">
-          </div>
-          <div class="form-group mt-1">
-            <label for="exampleFormControlInput1">Empresa</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="">
-          </div>
-          
-          <div class="form-group mt-1">
-            <label for="exampleFormControlTextarea1">Texto</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
-          </div>
-          <button type="success" class="btn btn-success mt-2 w-100">Enviar</button>
-        </form>
+    <!-- Mostrar mensajes de éxito/error -->
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  </div>
+    {% endfor %}
+  {% endif %}
+  
+<div class="container">
+    <form method="post" action="{% url 'home_app:formulario_contactar' %}">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="phone">Teléfono</label>
+                    <input type="text" class="form-control" id="phone" name="phone">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="company">Empresa</label>
+                    <input type="text" class="form-control" id="company" name="company">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3 text-center">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="g-recaptcha" data-sitekey="6Lfrkt0qAAAAAP-m1ZDxmp50hlj-5V4dX2ipxxIa"></div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-success w-100">Enviar</button>
+            </div>
+        </div>
+
+    </form>
 </div>
+
+
+
+
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalTitle" aria-hidden="true">
@@ -446,6 +493,25 @@ body{
     </div>
   </div>
 </div>
+
+
+<!--esto es para el recapcha-->
+<!-- Cargar el script de Google reCAPTCHA -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+          let alerts = document.querySelectorAll(".alert");
+          alerts.forEach(function (alert) {
+              alert.style.transition = "opacity 0.5s";
+              alert.style.opacity = "0";
+              setTimeout(() => alert.remove(), 500); // Elimina el mensaje después de la animación
+          });
+      }, 5000); // Desaparece después de 5 segundos
+  });
+</script>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
