@@ -226,7 +226,8 @@ body{
                             <li>(Información gestionada mediante panel)</li>
                         </ul>
                         <a href="{% url 'home_app:tarifa_anual' %}">
-                            <button type="button" class="w-100 btn btn-lg btn-success">Añadir</button>
+                            
+                            <a href="{% url 'paypal_payment' 'PREMIUM_ANNUAL' %}" class="w-100 btn btn-lg btn-success">Suscribirse Anual - 450€</a>
                         </a>
                     </div>
                 </div>
@@ -253,7 +254,8 @@ body{
                             <li>Ilimitado 24/7/365</li>
                             <li>(Información gestionada mediante panel)</li>
                         </ul>
-                        <button type="button" class="w-100 btn btn-lg border-success">Añadir</button>
+                        
+                      <a href="{% url 'paypal_payment' 'PREMIUM_MONTHLY' %}" class="w-100 btn btn-lg btn-success">Suscribirse Mensual - 45€</a>
                     </div>
                 </div>
             </div>

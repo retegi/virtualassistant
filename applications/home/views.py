@@ -18,6 +18,12 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 
 
+import paypalrestsdk
+from django.conf import settings
+from django.shortcuts import redirect
+from django.urls import reverse
+
+
 class HomePageView(CreateView):
     model = BusinessProfile
     form_class = BusinessProfileForm
@@ -97,7 +103,10 @@ class AssistantUpdateView(LoginRequiredMixin, UpdateView):
     model = BusinessProfile
     form_class = CompleteBusinessProfileForm
     template_name = "dashboard/assistant_create.html"
-    success_url = reverse_lazy("home_app:dashboard")
+
+    def get_success_url(self):
+        """Redirige a la página de actualización del asistente después de guardar."""
+        return reverse_lazy("home_app:assistant_update", kwargs={"pk": self.object.pk})
 
     def form_valid(self, form):
         """Asigna automáticamente el usuario autenticado antes de guardar el formulario."""
@@ -423,3 +432,75 @@ class FAQUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         """Redirige a la lista de preguntas frecuentes después de la actualización."""
         return reverse_lazy("home_app:list_faq", kwargs={"business_id": self.object.business.id})
+
+
+
+
+
+
+paypalrestsdk.configure({
+    "mode": settings.PAYPAL_MODE, 
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_CLIENT_SECRET,
+})
+
+def create_payment(request, plan_type):
+    if plan_type not in ["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"]:
+        return redirect("home_app:home")  # Redirige si el plan es inválido
+
+    price = "45.00" if plan_type == "PREMIUM_MONTHLY" else "450.00"
+
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": request.build_absolute_uri(reverse("paypal_execute", args=[plan_type])),
+            "cancel_url": request.build_absolute_uri(reverse("home_app:home")),
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": plan_type,
+                    "sku": plan_type,
+                    "price": price,
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "total": price,
+                "currency": "USD"
+            },
+            "description": f"Subscription to {plan_type}"
+        }]
+    })
+
+    if payment.create():
+        for link in payment.links:
+            if link.rel == "approval_url":
+                return redirect(link.href)
+    else:
+        return redirect("home_app:home")
+    
+
+
+def execute_payment(request, plan_type):
+    payment_id = request.GET.get("paymentId")
+    payer_id = request.GET.get("PayerID")
+
+    if not payment_id or not payer_id:
+        return redirect("home_app:home")
+
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        # Actualizar el tipo de suscripción del usuario
+        customer = CustomerProfile.objects.get(user=request.user)
+        customer.subscription_type = plan_type
+        customer.save()
+
+        return redirect("subscription_success")  # Redirigir a una página de éxito
+    else:
+        return redirect("subscription_failed")  # Redirigir a una página de fallo

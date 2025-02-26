@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ business_profile.company_name }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            {% if business_profile.background_color and business_profile.show_background_color %}
+            background-color: {{ business_profile.background_color }};
+            {% endif %}
+            {% if business_profile.background_image and business_profile.show_background_image %}
+            background-image: url('{{ business_profile.background_image.url }}');
+            background-size: cover;
+            background-position: center;
+            {% endif %}
+            color: #222;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: auto;
+            background: {{ business_profile.form_background_color }};
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .user-message {
+            text-align: right;
+            color: {{ business_profile.chat_customer_text_color }};
+        }
+        .assistant-message {
+            text-align: left;
+            color: {{ business_profile.chat_assistant_text_color }};
+        }
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+        }
+        .chat-button {
+            background-color: {{ business_profile.button_background_color }};
+            color: {{ business_profile.button_text_color }};
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container my-5">
+
+        <div class="chat-container p-4">
+    
+            
+            {% if business_profile.company_logo %}
+                    {% if business_profile.show_company_logo %}
+                <div class="text-center">
+                    <img src="{{ business_profile.company_logo.url }}" alt="Logo de {{ business_profile.company_name }}" class="img-fluid" style="max-height: 100px;">
+                </div>
+                {% endif %}
+            {% endif %}
+
+            {% if business_profile.show_company_name %}
+                {% if business_profile.company_name %}
+            <h3 class="text-center mt-3">{{ business_profile.company_name }}</h3>
+                {% endif %}
+            {% endif %}
+
+            {% if business_profile.show_assistant_image %}
+                {% if business_profile.assistant_image %}
+             <div class="text-center">
+                    <img src="{{ business_profile.assistant_image.url }}" alt="Logo de {{ business_profile.assistant_image }}" class="img-fluid" style="max-height: 100px;">
+                </div>
+                {% endif %}
+            {% endif %}
+            
+            <div id="chat-box" class="chat-box mt-3"></div>
+
+            <div class="input-group mt-3">
+                <input type="text" id="user-message" class="form-control" placeholder="Escribe tu mensaje...">
+                <button class="btn" style="background-color: {{ business_profile.button_background_color }}; color: {{ business_profile.button_text_color }};" onclick="sendMessage()">Enviar</button>
+            </div>
+                <a href="{{ business_profile.website }}" target="_blank"><button class="btn btn-sm mt-2" style="background-color: {{ business_profile.button_background_color }}; color: {{ business_profile.button_text_color }};">Ir a la web</button></a>
+    
+        </div>
+        
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function sendMessage() {
+    let message = document.getElementById("user-message").value;
+    if (message.trim() === "") return;
+
+    let chatBox = document.getElementById("chat-box");
+
+    // Agregar el mensaje del usuario al chat
+    chatBox.innerHTML += `<p class="chat-message user-message"><strong>Tú:</strong> ${message}</p>`;
+
+    console.log("Enviando mensaje al servidor:", message);  // DEBUG
+    const assistantName = window.location.pathname.split('/')[1];
+    fetch(`/assistant/${assistantName}/chat_api/`, {  // Verifica que esta ruta coincida con `urls.py`
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ message: message })  // Enviar datos en JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Respuesta del servidor:", data);  // DEBUG
+
+        if (data.reply) {
+            chatBox.innerHTML += `<p class="chat-message assistant-message"><strong>Asistente:</strong> ${data.reply}</p>`;
+        } else {
+            chatBox.innerHTML += `<p class="chat-message assistant-message text-danger"><strong>Error:</strong> No se pudo obtener respuesta</p>`;
+        }
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(error => {
+        console.error("Error en la petición fetch:", error);
+    });
+
+    document.getElementById("user-message").value = "";
+}
+
+    </script>
+
+
+<script>
+    // Enfocar el input cuando la página se carga
+window.onload = function() {
+    document.getElementById("user-message").focus();
+};
+
+// Detectar cuando el usuario presiona "Enter" y enviar el mensaje
+document.getElementById("user-message").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") { // Verifica si la tecla presionada es Enter
+        event.preventDefault(); // Evita el comportamiento por defecto del Enter en formularios
+        sendMessage(); // Llama a la función para enviar el mensaje
+    }
+});
+</script>
+
+</body>
+</html>
