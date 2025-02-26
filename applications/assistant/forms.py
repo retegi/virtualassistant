@@ -20,60 +20,120 @@ class BusinessProfileForm(forms.ModelForm):
             "address": forms.Textarea(attrs={"class": "form-control", "rows": 2, "placeholder": ""}),
             "business_hours": forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": ""}),
         }
-BOOLEAN_CHOICES = [(True, "Sí"), (False, "No")]
-class CompleteBusinessProfileForm(forms.ModelForm):
-    
+from django import forms
+from .models import BusinessProfile
 
+# Definición de opciones booleanas
+BOOLEAN_CHOICES = [(True, "Sí"), (False, "No")]
+
+class CompleteBusinessProfileForm(forms.ModelForm):
     class Meta:
         model = BusinessProfile
         fields = [
+            # Información de la empresa
             "company_name",
             "show_company_name",
             "company_logo",
             "show_company_logo",
+            "assistant_url_name",
+            "description",
+            "contact_email",
+            "phone",
+            "show_phone_call",
+            "website",
+            "address",
+            "business_hours",
+            "social_media",
+            "facebook",
+            "show_facebook_button",
+            "whatsapp",
+            "show_whatsapp_button",
+            "instagram",
+            "show_instagram_button",
+            "youtube",
+            "show_youtube_button",
+            "tiktok",
+            "show_tiktok_button",
+            "twitterx",
+            "show_twitterx_button",
+            "telegram",
+            "show_telegram_button",
+
+            # Imágenes y visualización
             "assistant_image",
             "show_assistant_image",
             "background_image",
+            "show_background_image",
+            "show_return_to_web",
+
+            # Colores personalizados
             "background_color",
+            "show_background_color",
             "form_background_color",
             "button_background_color",
             "button_text_color",
             "chat_customer_text_color",
             "chat_assistant_text_color",
-            "company_name",
-            "assistant_url_name",
-            "description",
-            "contact_email",
-            "phone",
-            "website",
-            "address",
-            "business_hours",
-            "social_media"
         ]
+        
         widgets = {
-            "company_name": forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            # Campos de texto
+            "company_name": forms.TextInput(attrs={"class": "form-control"}),
+            "assistant_url_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre para el asiste. Por ejemplo: zapatosmadrid"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 15}),
+            "contact_email": forms.TextInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "website": forms.TextInput(attrs={"class": "form-control"}),
+            "address": forms.TextInput(attrs={"class": "form-control"}),
+            "business_hours": forms.Textarea(attrs={
+                "class": "form-control", 
+                "rows": 3, 
+                "placeholder": "Ejemplo: Lunes a viernes de 8:00 a 13:30 y de 16:30 a 19:00. Sábados de 9:00 a 14:00."
+            }),
+            "social_media": forms.Textarea(attrs={
+                "class": "form-control", 
+                "rows": 3, 
+                "placeholder": "{'facebook':'https://www.facebook.com/tuempresa'}"
+            }),
+            "facebook": forms.TextInput(attrs={"class": "form-control"}),
+            "whatsapp": forms.TextInput(attrs={"class": "form-control"}),
+            "instagram": forms.TextInput(attrs={"class": "form-control"}),
+            "youtube": forms.TextInput(attrs={"class": "form-control"}),
+            "tiktok": forms.TextInput(attrs={"class": "form-control"}),
+            "twitterx": forms.TextInput(attrs={"class": "form-control"}),
+            "telegram": forms.TextInput(attrs={"class": "form-control"}),
+
+            # Campos booleanos (Sí/No)
             "show_company_name": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
-            "company_logo": forms.ClearableFileInput(attrs={"class": "form-control"}),
             "show_company_logo": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
-            "assistant_image": forms.ClearableFileInput(attrs={"class": "form-control"}),
             "show_assistant_image": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
-            "background_image":forms.ClearableFileInput(attrs={"class": "form-control"}),
-            "background_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "form_background_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "button_background_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "button_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "chat_customer_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "chat_assistant_text_color":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "company_name":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "assistant_url_name":forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre para el asiste. Por ejemplo: zapatosmadrid" }),
-            "description":forms.Textarea(attrs={"class": "form-control", "rows": 15, "placeholder": ""}),
-            "contact_email":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "phone":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "website":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "address":forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
-            "business_hours":forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "Ejemplo: Lunes a viernes de 8:00 a 13:30 y de 16:30 a 19:00. Sábados de 9:00 a 14:00."}),
-            "social_media":forms.Textarea(attrs={"class": "form-control", "rows": 3, "placeholder": "","value":"{'facebook': 'url', 'instagram': 'url'}"}),
+            "show_background_image": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_background_color": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_phone_call": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_return_to_web": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            
+            "show_facebook_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_whatsapp_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_instagram_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_youtube_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_tiktok_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_twitterx_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+            "show_telegram_button": forms.Select(choices=BOOLEAN_CHOICES, attrs={"class": "form-control"}),
+
+            # Campos de archivos
+            "company_logo": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "assistant_image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "background_image": forms.ClearableFileInput(attrs={"class": "form-control"}),
+
+            # Campos de selección de color
+            "background_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "title": "Choose a color"}),
+            "form_background_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "title": "Choose a color"}),
+            "button_background_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "id": "myColor", "title": "Choose a color"}),
+            "button_text_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "title": "Choose a color"}),
+            "chat_customer_text_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "title": "Choose a color"}),
+            "chat_assistant_text_color": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color w-100", "title": "Choose a color"}),
         }
+
 
 class ProductForm(forms.ModelForm):
     class Meta:

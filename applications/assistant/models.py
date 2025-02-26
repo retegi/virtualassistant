@@ -10,20 +10,43 @@ class BusinessProfile(models.Model):
     assistant_image = models.ImageField(upload_to='static/assistant/assistant-image/', verbose_name="Imagen del asistente", blank=True, null=True)
     show_assistant_image = models.BooleanField(default=True, verbose_name="Mostrar imagen del asistente", blank=True, null=True)
     background_image = models.ImageField(upload_to='static/assistant/background-image/', verbose_name="Imagen de fondo", blank=True, null=True)
+    show_background_image = models.BooleanField(default=True, verbose_name="Mostrar imagen de fondo", blank=True, null=True)
     background_color = models.CharField(max_length=255, verbose_name="Color HTML de fondo de página", default="white", blank=True, null=True)
+    show_background_color = models.BooleanField(default=True, verbose_name="Mostrar color de fondo", blank=True, null=True)
     form_background_color = models.CharField(max_length=255, verbose_name="Color HTML de fondo de formulario", default="#f8f9fa", blank=True, null=True)
     button_background_color = models.CharField(max_length=255, verbose_name="Color HTML de fondo del botón", default="#28a745", blank=True, null=True)
     button_text_color = models.CharField(max_length=255, verbose_name="Color HTML de texto del botón", default="white", blank=True, null=True)
     chat_customer_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del cliente", default="#333", blank=True, null=True)
     chat_assistant_text_color = models.CharField(max_length=255, verbose_name="Color HTML del texto del chat del asistente", default="#333", blank=True, null=True)
-    assistant_url_name = models.CharField(max_length=255, verbose_name="Nombre url", blank=True, null=True, unique=True)
-    description = models.TextField(verbose_name="Descripción de la Empresa", blank=True, null=True)
+    assistant_url_name = models.CharField(max_length=255, blank=True, null=True, unique=True)
+    description = models.TextField(verbose_name="Descripción de la Empresa. Indícale al asistente sobre la empresa y a qué se dedica.", blank=True, null=True)
     contact_email = models.EmailField(verbose_name="Correo Electrónico de Contacto", blank=True, null=True)
     phone = models.CharField(max_length=20, verbose_name="Teléfono", blank=True, null=True)
+    show_phone_call = models.BooleanField(default=True, verbose_name="Mostrar botón llamar", blank=True, null=True)
+    show_return_to_web = models.BooleanField(default=True, verbose_name="Mostrar botón ir a web", blank=True, null=True)
     website = models.URLField(verbose_name="Sitio Web", blank=True, null=True)
     address = models.TextField(verbose_name="Dirección", blank=True, null=True)
+
     business_hours = models.TextField(verbose_name="Horario de Atención", blank=True, null=True)  # Guardado como JSON
-    social_media = models.JSONField(verbose_name="Redes Sociales", blank=True, null=True)  # Ej: {"facebook": "url", "instagram": "url"}
+    
+    facebook = models.URLField(verbose_name="Url completa de facebook", blank=True, null=True)
+    show_facebook_button = models.BooleanField(default=True, verbose_name="Mostrar botón facebook", blank=True, null=True)
+    whatsapp = models.URLField(verbose_name="Url completa de whatsapp", blank=True, null=True)
+    show_whatsapp_button = models.BooleanField(default=True, verbose_name="Mostrar botón whatsapp", blank=True, null=True)
+    instagram = models.URLField(verbose_name="Url completa de instagram", blank=True, null=True)
+    show_instagram_button = models.BooleanField(default=True, verbose_name="Mostrar botón instagram", blank=True, null=True)
+    youtube = models.URLField(verbose_name="Url completa de youtube", blank=True, null=True)
+    show_youtube_button = models.BooleanField(default=True, verbose_name="Mostrar botón youtube", blank=True, null=True)
+    tiktok = models.URLField(verbose_name="Url completa de tiktok", blank=True, null=True)
+    show_tiktok_button = models.BooleanField(default=True, verbose_name="Mostrar botón tiktok", blank=True, null=True)
+    twitterx = models.URLField(verbose_name="Url completa de x/twitter", blank=True, null=True)
+    show_twitterx_button = models.BooleanField(default=True, verbose_name="Mostrar botón x/twitter", blank=True, null=True)
+    telegram = models.URLField(verbose_name="Url completa de telegram", blank=True, null=True)
+    show_telegram_button = models.BooleanField(default=True, verbose_name="Mostrar botón telegram", blank=True, null=True)
+    
+
+    show_phone_call = models.BooleanField(default=True, verbose_name="Mostrar botón llamar", blank=True, null=True)
+    social_media = models.JSONField(verbose_name="Redes Sociales. Utilizar formato {'facebook':'https://www.facebook.com/tuempresa','instagram':'https://...etc'}", blank=True, null=True)  # Ej: {"facebook": "url", "instagram": "url"}
 
 class Product(models.Model):
     business = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="products")
