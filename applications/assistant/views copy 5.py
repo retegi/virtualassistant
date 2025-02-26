@@ -144,7 +144,6 @@ def load_instructions(assistant_url_name):
 
 
 
-
 def get_bot_response(request, assistant_url_name):
     if request.method == 'POST':
         try:
@@ -174,16 +173,8 @@ def get_bot_response(request, assistant_url_name):
 
             return JsonResponse({'reply': bot_reply})
 
-        except openai.error.OpenAIError as e:
-            print(f"🔥 ERROR en OpenAI: {e}")
-            return JsonResponse({'error': f"OpenAI Error: {str(e)}"}, status=500)
-
-        except json.JSONDecodeError:
-            print("🔥 ERROR: JSON inválido en la solicitud")
-            return JsonResponse({'error': 'Error en el formato JSON'}, status=400)
-
         except Exception as e:
-            print(f"🔥 ERROR inesperado en get_bot_response: {e}")
+            print(f"🔥 ERROR en get_bot_response: {e}")
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
