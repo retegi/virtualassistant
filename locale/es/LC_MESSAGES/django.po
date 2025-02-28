@@ -1,0 +1,335 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-25 06:26-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: applications/home/models.py:7 templates/home/index.html:345
+#: templates/home/index.html:427
+msgid "Gratis"
+msgstr ""
+
+#: applications/home/models.py:8
+msgid "Premium Mensual"
+msgstr ""
+
+#: applications/home/models.py:9
+msgid "Premium Anual"
+msgstr ""
+
+#: templates/home/index.html:182
+msgid "Mejora la atención a tus clientes"
+msgstr ""
+
+#: templates/home/index.html:183
+msgid "y atiende 24 horas"
+msgstr ""
+
+#: templates/home/index.html:184
+msgid "con tu asistente inteligente"
+msgstr ""
+
+#: templates/home/index.html:188
+msgid "Nombre para tu"
+msgstr ""
+
+#: templates/home/index.html:188
+msgid "asistente inteligente:"
+msgstr ""
+
+#: templates/home/index.html:194
+msgid "bolsosmadrid"
+msgstr ""
+
+#: templates/home/index.html:203
+msgid "Crear"
+msgstr ""
+
+#: templates/home/index.html:203
+msgid "Asistente Inteligente"
+msgstr ""
+
+#: templates/home/index.html:215
+msgid "Tu asistente virtual en 3 pasos"
+msgstr ""
+
+#: templates/home/index.html:217
+msgid ""
+"Tu asistente virtual atiende tus clientes 24/7 e informará a tus clientes "
+"sobre tu empresa, productos, servicios y precios como tú decidas."
+msgstr ""
+
+#: templates/home/index.html:227 templates/home/index.html:232
+#: templates/home/index.html:242 templates/home/index.html:257
+msgid "Elige un nombre para tu asistente virtual"
+msgstr ""
+
+#: templates/home/index.html:247
+msgid "Completa la información de productos, servicios y ofertas especiales"
+msgstr ""
+
+#: templates/home/index.html:262
+msgid "Añade el enlace o código del asistente a tu web"
+msgstr ""
+
+#: templates/home/index.html:277
+msgid ""
+"Entrena tu asistente con los datos de tu empresa, productos, servicios y "
+"ofertas. Y dile cómo quieres que atienda a tus clientes."
+msgstr ""
+
+#: templates/home/index.html:287
+msgid "Echa un vistazo a nuestros proyectos"
+msgstr ""
+
+#: templates/home/index.html:293
+msgid "Asistente CAF"
+msgstr ""
+
+#: templates/home/index.html:295
+msgid ""
+"Asistente virtual de CAF para mejorar la experiencia del cliente en el "
+"sector ferroviario."
+msgstr ""
+
+#: templates/home/index.html:296 templates/home/index.html:307
+#: templates/home/index.html:318
+msgid "Ver demo"
+msgstr ""
+
+#: templates/home/index.html:304
+msgid "Asistente Euskaltel"
+msgstr ""
+
+#: templates/home/index.html:306
+msgid ""
+"Asistente virtual de Euskaltel que facilita la atención al cliente y soporte "
+"técnico."
+msgstr ""
+
+#: templates/home/index.html:315
+msgid "Asistente Kutxabank"
+msgstr ""
+
+#: templates/home/index.html:317
+msgid ""
+"Asistente virtual de Kutxabank para mejorar la gestión financiera de los "
+"clientes."
+msgstr ""
+
+#: templates/home/index.html:334
+msgid "Tarifa"
+msgstr ""
+
+#: templates/home/index.html:336
+msgid ""
+"Elige la opción que mejor se ajusta a las necesidades de tu empresa, "
+"organización o proyecto. Cada día trabajos en mejorar nuestros asistentes "
+"para mejorar la experiencia de los usuarios y de tus clientes. Contacta con "
+"nosotros y te informaremos sin compromiso"
+msgstr ""
+
+#: templates/home/index.html:348 templates/home/index.html:392
+msgid "mes"
+msgstr ""
+
+#: templates/home/index.html:350 templates/home/index.html:368
+#: templates/home/index.html:394
+msgid "Tu asistente sabrá"
+msgstr ""
+
+#: templates/home/index.html:351
+msgid "Descripción general de la empresa"
+msgstr ""
+
+#: templates/home/index.html:352
+msgid "Uso limitado"
+msgstr ""
+
+#: templates/home/index.html:354 templates/home/index.html:381
+#: templates/home/index.html:407
+msgid "Añadir"
+msgstr ""
+
+#: templates/home/index.html:362 templates/home/index.html:428
+msgid "Anual"
+msgstr ""
+
+#: templates/home/index.html:363
+msgid "Recomendado"
+msgstr ""
+
+#: templates/home/index.html:366
+msgid "año"
+msgstr ""
+
+#: templates/home/index.html:369 templates/home/index.html:395
+msgid "Descripción detallada de la empresa"
+msgstr ""
+
+#: templates/home/index.html:370 templates/home/index.html:396
+#: templates/home/index.html:446
+msgid "Información de horarios"
+msgstr ""
+
+#: templates/home/index.html:371 templates/home/index.html:397
+#: templates/home/index.html:454
+msgid "Información de contacto"
+msgstr ""
+
+#: templates/home/index.html:372 templates/home/index.html:398
+msgid "Información de productos"
+msgstr ""
+
+#: templates/home/index.html:373 templates/home/index.html:399
+msgid "Tarifa de productos"
+msgstr ""
+
+#: templates/home/index.html:374 templates/home/index.html:400
+msgid "Información de servicios"
+msgstr ""
+
+#: templates/home/index.html:375 templates/home/index.html:401
+msgid "Tarifa de servicios"
+msgstr ""
+
+#: templates/home/index.html:376 templates/home/index.html:402
+msgid "Memoria de conversación"
+msgstr ""
+
+#: templates/home/index.html:377 templates/home/index.html:403
+msgid "Informes de conversaciones"
+msgstr ""
+
+#: templates/home/index.html:378 templates/home/index.html:404
+msgid "Ilimitado 24/7/365"
+msgstr ""
+
+#: templates/home/index.html:379 templates/home/index.html:405
+msgid "(Información gestionada mediante panel)"
+msgstr ""
+
+#: templates/home/index.html:389 templates/home/index.html:429
+msgid "Mensual"
+msgstr ""
+
+#: templates/home/index.html:420
+msgid "Plan a tu medida"
+msgstr ""
+
+#: templates/home/index.html:434
+msgid "Panel de gestión de asistentes"
+msgstr ""
+
+#: templates/home/index.html:440
+msgid "Descripción de la empresa"
+msgstr ""
+
+#: templates/home/index.html:460
+msgid "Productos: Información, precios y promociones"
+msgstr ""
+
+#: templates/home/index.html:466
+msgid "Productos: Venta directa"
+msgstr ""
+
+#: templates/home/index.html:472
+msgid "Servicios: Información, precios y promociones"
+msgstr ""
+
+#: templates/home/index.html:478
+msgid "Servicios: Venta directa"
+msgstr ""
+
+#: templates/home/index.html:484
+msgid "Preguntas y respuestas"
+msgstr ""
+
+#: templates/home/index.html:490
+msgid "Carácter de asistente (formal, informal, cercano, etc.)"
+msgstr ""
+
+#: templates/home/index.html:496
+msgid "Informes de conversación"
+msgstr ""
+
+#: templates/home/index.html:502
+msgid "Uso ilimitado 7/24/365"
+msgstr ""
+
+#: templates/home/index.html:509
+msgid "Logo de empresa"
+msgstr ""
+
+#: templates/home/index.html:515
+msgid "Imagen/animación de asistente personalizable"
+msgstr ""
+
+#: templates/home/index.html:521
+msgid "Asistencia técnica/telefónica"
+msgstr ""
+
+#: templates/home/index.html:542
+msgid "Contactar"
+msgstr ""
+
+#: templates/home/index.html:565
+msgid "Nombre"
+msgstr ""
+
+#: templates/home/index.html:571
+msgid "Email"
+msgstr ""
+
+#: templates/home/index.html:580
+msgid "Teléfono"
+msgstr ""
+
+#: templates/home/index.html:586
+msgid "Empresa"
+msgstr ""
+
+#: templates/home/index.html:595
+msgid "Mensaje"
+msgstr ""
+
+#: templates/home/index.html:609
+msgid "Enviar"
+msgstr ""
+
+#: templates/home/index.html:627
+msgid "Añade información básica:"
+msgstr ""
+
+#: templates/home/index.html:636
+msgid "Guardar"
+msgstr ""
+
+#: templates/home/index.html:637
+msgid ""
+"Nota: Desde el panel de control se puede actualizar y detallar toda la "
+"información para el asistente virtual"
+msgstr ""
+
+#: virtualassistant/settings.py:156
+msgid "Español"
+msgstr ""
+
+#: virtualassistant/settings.py:157
+msgid "Euskara"
+msgstr ""

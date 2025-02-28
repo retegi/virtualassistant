@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    .card {
+      border-radius: 15px;
+      margin: 15px 0;
+      transition: transform 0.3s ease;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      padding: 20px;
+      background-color: #914ff3;
+      color: white;
+    }
+
+    .card-body {
+      padding: 20px;
+      min-height: 300px;
+    }
+
+    .btn-primary {
+      background-color: #b74ff3;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      width: 100%;
+      text-transform: uppercase;
+    }
+
+    .btn-primary:hover {
+      background-color: #a491e7;
+    }
+
+    .difficulty {
+      font-size: 0.875rem;
+      color: #757575;
+    }
+
+    .icon-image {
+        width: 150px; /* Ajusta el tamaño */
+        height: 150px; /* Ajusta el tamaño */
+        display: block; /* Asegura que esté centrada */
+        margin: 0 auto; /* Centra la imagen */
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container my-5">
+    <!-- First row with four cards -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            KUTXABANK
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/kutxa-logo-Photoroom.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Innovación en el Sector Bancario</h5>
+            <p class="difficulty"> Conoce cómo Kutxabank ha implementado soluciones innovadoras para mejorar la experiencia de sus clientes.</p>
+            <a href="https://www.tuasistenteinteligente.com/Asistenat_kutxabank/">
+                <button class="btn btn-primary">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            CAF
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/Logo_CAF-Photoroom.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Soluciones Digitales para el Sector Ferroviario</h5>
+            <p class="difficulty">Descubre cómo KAF está optimizando la experiencia del cliente en el sector ferroviario con tecnologías avanzadas.</p>
+            <a href="https://www.tuasistenteinteligente.com/CAF_ASISTANT/">
+                <button class="btn btn-primary mt-4">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            EUSKALTEL
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/euskaltel-logo-Photoroom.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Mejorando la Atención al Cliente</h5>
+            <p class="difficulty">Descubre cómo Euskaltel está utilizando nuevas tecnologías para optimizar la atención a sus usuarios y mejorar la satisfacción del cliente.
+            </p>
+            <a href="https://www.tuasistenteinteligente.com/Asistenat_euskaltel/">
+                <button class="btn btn-primary">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            MERCADONA
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/logo-Mercadona-Photoroom.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Curso de Marketing Digital</h5>
+            <p class="difficulty">Conoce cómo Mercadona está implementando campañas de marketing digital efectivas para mejorar su presencia online y fidelizar a sus clientes.</p>
+            <a href="https://www.tuasistenteinteligente.com/mercadona/">
+                <button class="btn btn-primary mt-4">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second row with four cards -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            TELEPIZZA
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/telepizza.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">La mejor pizza en tu hogar</h5>
+            <p class="difficulty">Descubre cómo Telepizza está llevando la mejor pizza a tu casa con su plataforma en línea.</p>
+            <button class="btn btn-primary">Ver Asistente</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            LA CASA DEL LIBRO
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/casa-del-libro.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Todo lo que buscas en libros</h5>
+            <p class="difficulty">Descubre cómo La Casa del Libro está llevando la literatura a cada hogar con su plataforma en línea y su amplio catálogo.</p>
+            <a href="https://www.tuasistenteinteligente.com/lacasadellibro/">
+                <button class="btn btn-primary">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            MUNDO NICA
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/mundonica.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Conectando Nicaragüenses alrededor del mundo</h5>
+            <p class="difficulty">MundoNica es una plataforma que ayuda a conectar a la comunidad nicaragüenses.</p>
+            <a href="https://www.tuasistenteinteligente.com/Mundonica_bot/">
+                <button class="btn btn-primary">Ver Asistente</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            Marketing Digital
+          </div>
+          <div class="card-body">
+            <div class="icon-container">
+                <img src="{% static 'img/icono-violeta-impruve.png' %}" alt="GitHub" class="icon-image">
+            </div>
+            <h5 class="card-title">Curso de Marketing Digital</h5>
+            <p class="difficulty">Dificultad: Media</p>
+            <button class="btn btn-primary">Ver Asistente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
