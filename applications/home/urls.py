@@ -58,4 +58,6 @@ urlpatterns = [
     path("edit-faq/<int:pk>/", views.FAQUpdateView.as_view(), name="update_faq"),
     path("delete-faq/<int:pk>/", views.FAQDeleteView.as_view(), name="delete_faq"),
 
+
+    path('asistente_virtual/qr_scan/', views.Pagina_qr_view.as_view(), name='qr_scan'),
 ]

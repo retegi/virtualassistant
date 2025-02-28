@@ -343,6 +343,10 @@ class ServiceListView(LoginRequiredMixin, ListView):
         return context
     
 
+
+
+
+
 class UpdateServiceView(LoginRequiredMixin, UpdateView):
     model = Service
     form_class = ServiceForm
@@ -500,3 +504,10 @@ class FAQUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         """Redirige a la lista de preguntas frecuentes después de la actualización."""
         return reverse_lazy("home_app:list_faq", kwargs={"business_id": self.object.business.id})
+
+
+
+
+class Pagina_qr_view(TemplateView):
+    # Especificamos la plantilla a utilizar
+    template_name = "home/qr.html"

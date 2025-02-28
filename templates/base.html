@@ -58,6 +58,20 @@
       flex-direction: column;
       justify-content: flex-end;
     }
+
+
+    .bg-color {
+        color: white;
+        background-color: #8a2be2;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bg-color:hover {
+        color: white;
+        transform: scale(1.05);
+        background-color:#8a2be2 ;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
   </style>
 
 {% block head %}
@@ -68,21 +82,22 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
         <a href="{% url 'home_app:home' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
-         <label class="h3 text-success grand-hotel-regular">TuAsistenteInteligente.com</label>
+         <label class="h3 grand-hotel-regular" style="color: #8a2be2;text-shadow: 1px 1px white;">TuAsistenteInteligente.com</label>
          </a>
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'home_app:home' %}" class="nav-link px-2 link-secondary text-white">Home</a></li>
-        <li><a href="{% url 'home_app:home' %}#tarifa" class="nav-link px-2 text-white">Tarifa</a></li>
-        <li><a target="_blank" href="https://www.tuasistenteinteligente.com/tuasistenteinteligente" class="nav-link px-2 text-white bg-success">Asistente</a></li>
+        <li><a href="{% url 'home_app:home' %}" class="nav-link px-2 text-secondary">Home</a></li>
+        <li><a href="{% url 'home_app:home' %}#tarifa" class="nav-link px-2 text-secondary">Tarifa</a></li>
+        <li><a target="_blank" href="https://www.tuasistenteinteligente.com/tuasistenteinteligente" class="nav-link px-2 bg-color">Asistente</a></li>
         <!--<li><a href="#" class="nav-link px-2 text-white">Ayuda</a></li>-->
-        <li><a href="{% url 'home_app:home' %}#contact" class="nav-link px-2 text-white">Contact</a></li>
+        <li><a href="{% url 'home_app:home' %}#contact" class="nav-link px-2 text-secondary">Contact</a></li>
+        <li><a href="{% url 'home_app:qr_scan' %}" class="nav-link px-2 text-secondary">Demos</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
       {% if user.is_authenticated %}
-        <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn me-2 bg-success text-white" id="paneldecontrol">Panel de control</button></a>
+        <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn me-2 bg-color text-white" id="paneldecontrol">Panel de control</button></a>
         <a href="{% url 'home_app:dashboard' %}"><button type="button" class="btn btn-light me-2">{{ user.username }}</button></a>
         <a href="{% url 'account_logout' %}"><button type="button" class="btn btn-light me-2">Salir</button></a>
       {% else %}
@@ -104,7 +119,7 @@
       <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
     </ul>
-    <p class="text-center text-body-secondary">&copy; 2024 Company, Inc</p>
+    <p class="text-center text-body-secondary">&copy; 2025 Company, Inc</p>
   </footer>
 </div>
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}  <!-- Cargar el sistema de traducción -->
 {% load static %}
 
 {% block head %}
@@ -8,7 +9,6 @@
 
 }
 body{
-    background-image: url("{% static 'home/asistente-virtual-empresas.jpg' %}");
     background-size: cover;
     height: 100vh;
 }
@@ -95,282 +95,433 @@ body{
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+      
+      .color{
+        color: #8a2be2;
+      }
+      .bg-color {
+        color: white;
+        background-color: #8a2be2;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .bg-color:hover {
+        color: white;
+        transform: scale(1.05);
+        background-color:#8a2be2 ;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .forms-input{
+        border-color: #8a2be2;
+      }
+
 </style>
 
+
+<style>
+/* Estilos para el efecto de flip */
+.flip-card {
+  background-color: transparent;
+  width: 100%;
+  height: 370px; /* Altura fija para las tarjetas */
+  perspective: 1000px; /* Permite el efecto 3D */
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Oculta la parte trasera */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen para cubrir el contenedor */
+}
+
+.flip-card-back {
+  background-color: #8a2be2; /* Color de fondo del reverso */
+  color: #fff; /* Color del texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateY(180deg); /* Voltea la parte trasera */
+  padding: 15px;
+  text-align: center;
+}
+</style>
 {% endblock %}
 
 {% block content %}
 
-
-
-<div class="container-fluid text-center partehead">
+<div class="container-fluid text-center partehead" 
+     style="background: url('{% static "home/asistente-virtual-empresas.jpg" %}') no-repeat center center; 
+            background-size: cover;">
+  
   <div class="row justify-content-center py-5">
       <div class="col-12 col-md-8 col-lg-6 mt-5">
           <form class="bg-white p-4 p-md-5 rounded shadow">
-              <h5 class="text-secondary">Mejora la atención a tus clientes<br>y atiende 24 horas<br>con tu asistente inteligente ;)</h5>
+              <h5 class="text-secondary">
+                  {% trans 'Mejora la atención a tus clientes' %}<br>
+                  {% trans 'y atiende 24 horas' %}<br>
+                  {% trans 'con tu asistente inteligente' %} 😉
+              </h5>
               
               <div class="mb-3">
-                  <h1 class="m-3">Nombre para tu<br>asistente inteligente:</h1>
-                  <input type="text" class="form-control text-center text-success" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <h1 class="m-3">{% trans 'Nombre para tu' %}<br>{% trans 'asistente inteligente:' %}</h1>
+                  <input style="color:#8a2be2;" type="text" class="form-control text-center" 
+                         id="exampleInputEmail1" aria-describedby="emailHelp">
                   <div id="emailHelp" class="form-text">
-                      <label class="h5">www.tu<b class="text-dark">asistente</b>inteligente.com/<b class="text-success h3" id="assistanturl">bolsosmadrid</b></label>
+                      <label class="h5">
+                          www.tu<b class="text-dark">asistente</b>inteligente.com/
+                          <b class="color h3" id="assistanturl">{% trans 'bolsosmadrid' %}</b>
+                      </label>
                   </div>
               </div>
               
-              <a href="{% url 'account_signup' %}"><button type="button" class="btn btn-success w-100 w-md-50" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                  <b>Crear<br>Asistente Inteligente</b>
-              </button></a>
+              <a href="{% url 'account_signup' %}" 
+                 class="btn bg-color w-100 w-md-50" 
+                 data-bs-toggle="modal" 
+                 data-bs-target="#exampleModalCenter">
+                  <b>{% trans 'Crear' %}<br>{% trans 'Asistente Inteligente' %}</b>
+              </a>
           </form>
       </div>
   </div>
 </div>
 
 
-<div class="bg-white" style="width:100vw;">
-  <div class="container bg-white text-center py-5">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h1 class="fw-bold">Tu asistente virtual en 3 pasos</h1>
-            <p class="text-muted">Tu asistente virtual atiende tus clientes 24/7 e informará a tus clientes sobre tu empresa, productos, servicios y precios como tú decidas.</p>
-        </div>
+<section class="flip-section bg-light py-5">
+  <div class="container py-5">
+    <!-- Título y subtítulo centrados -->
+    <div class="text-center mb-3">
+      <h1>{% trans 'Tu asistente virtual en 3 pasos' %}</h1>
+      <p class="lead">
+        {% trans 'Tu asistente virtual atiende tus clientes 24/7 e informará a tus clientes sobre tu empresa, productos, servicios y precios como tú decidas.' %}
+      </p>
     </div>
+    
+    <!-- Tarjetas en fila (se apilan en móvil y se muestran en 3 columnas en pantallas medianas o mayores) -->
+    <div class="row g-4 justify-content-center py-5">
+      <!-- Tarjeta 1 -->
+      <div class="col-12 col-md-4 py-5">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <h3>1. {% trans 'Elige un nombre para tu asistente virtual' %}</h3>
+            <div class="flip-card-front">
+              <img src="{% static 'img/virtual-asistente-primer-paso.webp' %}" alt="Imagen 1" class="img-fluid">
+            </div>
+            <div class="flip-card-back">
+              <h4>{% trans 'Elige un nombre para tu asistente virtual' %}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4 justify-content-center">
-        <div class="col d-flex justify-content-center">
-            <div class="card text-center p-4 w-100" style="max-width: 320px;">
-                <h1 class="step-number">1</h1>
-                <div class="card-body">
-                    <p class="card-text">Elige un nombre para tu asistente virtual</p>
-                </div>
+      <!-- Tarjeta 2 -->
+      <div class="col-12 col-md-4 py-5">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <h3>1. {% trans 'Elige un nombre para tu asistente virtual' %}</h3>
+            <div class="flip-card-front">
+              <img src="{% static 'img/virtual-asistente-segundo-paso.webp' %}" alt="Imagen 2" class="img-fluid">
             </div>
-        </div>
-        <div class="col d-flex justify-content-center">
-            <div class="card text-center p-4 w-100" style="max-width: 320px;">
-                <h1 class="step-number">2</h1>
-                <div class="card-body">
-                    <p class="card-text">Completa la información de productos, servicios y ofertas especiales</p>
-                </div>
+            <div class="flip-card-back">
+              <h4>{% trans 'Completa la información de productos, servicios y ofertas especiales' %}</h4>
             </div>
+          </div>
         </div>
-        <div class="col d-flex justify-content-center">
-            <div class="card text-center p-4 w-100" style="max-width: 320px;">
-                <h1 class="step-number">3</h1>
-                <div class="card-body">
-                    <p class="card-text">Añade el enlace o código del asistente a tu web</p>
-                </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="col-12 col-md-4 py-5">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <h3>1. {% trans 'Elige un nombre para tu asistente virtual' %}</h3>
+            <div class="flip-card-front">
+              <img src="{% static 'img/vistual-asistente-tercer-paso.webp' %}" alt="Imagen 3" class="img-fluid">
             </div>
+            <div class="flip-card-back">
+              <h4>{% trans 'Añade el enlace o código del asistente a tu web' %}</h4>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
+  </div>
+</section>
 <!--===========================================================
         Seccion de las tarjetas de precios 
 ===============================================================-->
-<div class="w-100 bg-light">
+<div class="w-100 py-5" style="background-color: #8a2be2;color: white;">
     <div class="container py-5">
         <div class="row py-5">
             <div class="col-12 text-center">
-                <h2 class="display-6 text-center mb-4">Entrena tu asistente con los datos de tu empresa, productos, servicios y ofertas. Y dile cómo quieres que atienda a tus clientes.</h2>
+                <h2 class="display-6 text-center mb-4">{% trans 'Entrena tu asistente con los datos de tu empresa, productos, servicios y ofertas. Y dile cómo quieres que atienda a tus clientes.' %}</h2>
             </div>
         </div>
     </div>
-</div>    
+</div>  
 
-<div class="container" id="tarifa">
-    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h2 class="display-6 text-center mb-4">Tarifa</h2>
-        <p class="fs-5 text-body-secondary">
-            Elige la opción que mejor se ajusta a las necesidades de tu empresa, organización o proyecto. Cada día trabajos en mejorar nuestros asistentes para mejorar la experiencia de los usuarios y de tus clientes. Contacta con nosotros y te informaremos sin compromiso.
-        </p>
+<!--=============================================================
+              apartado o seccion para las demos
+=================================================================-->
+<div class="container text-center my-5 py-5 bg-light">
+  <h2 class="mb-4">🔍 {% trans "Echa un vistazo a nuestros proyectos" %}</h2>
+  <div class="row justify-content-center">
+      
+      <!-- Card 1: CAF -->
+      <div class="col-12 col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+          <div class="card mx-2" style="width: 18rem;">
+              <img src="{% static 'img/CAF-ferrocarril.jpg' %}" class="card-img-top img-fluid" alt="{% trans 'Asistente CAF' %}">
+              <div class="card-body">
+                  <p class="card-text">{% trans "Asistente virtual de CAF para mejorar la experiencia del cliente en el sector ferroviario." %}</p>
+                  <a href="https://www.tuasistenteinteligente.com/CAF_ASISTANT/" class="btn bg-color w-100 mt-4">{% trans "Ver Asistente" %}</a>
+              </div>
+          </div>
+      </div>
+
+      <!-- Card 2: Euskaltel -->
+      <div class="col-12 col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+          <div class="card mx-2" style="width: 18rem;">
+              <img src="{% static 'img/euskaltel.png' %}" class="card-img-top img-fluid" alt="{% trans 'Asistente Euskaltel' %}">
+              <div class="card-body">
+                  <p class="card-text">{% trans "Asistente virtual de Euskaltel que facilita la atención al cliente y soporte técnico." %}</p>
+                  <a href="https://www.tuasistenteinteligente.com/Asistenat_euskaltel/" class="btn bg-color w-100">{% trans "Ver Asistente" %}</a>
+              </div>
+          </div>
+      </div>
+
+      <!-- Card 3: Kutxabank -->
+      <div class="col-12 col-md-4 d-flex justify-content-center">
+          <div class="card mx-2" style="width: 18rem;">
+              <img src="{% static 'img/kutxabank.png' %}" class="card-img-top img-fluid" alt="{% trans 'Asistente Kutxabank' %}">
+              <div class="card-body">
+                  <p class="card-text">{% trans "Asistente virtual de Kutxabank para mejorar la gestión financiera de los clientes." %}</p>
+                  <a href="https://www.tuasistenteinteligente.com/Asistenat_kutxabank/" class="btn bg-color w-100">{% trans "Ver Asistente" %}</a>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+
+<!--==================================================================
+              seccion de tarifas y suscripción
+=====================================================================-->
+
+<section class="bg-white" id="tarifa">
+  <div class="container">
+    <div class="pricing-header mx-auto text-center py-5">
+      <h2 class="display-6 text-center pt-5 mb-4">{% trans 'Tarifa' %}</h2>
+      <p class="fs-5 text-body-secondary">
+        {% trans 'Elige la opción que mejor se ajusta a las necesidades de tu empresa, organización o proyecto. Cada día trabajos en mejorar nuestros asistentes para mejorar la experiencia de los usuarios y de tus clientes. Contacta con nosotros y te informaremos sin compromiso' %}.
+      </p>
     </div>
 
     <main>
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Gratis</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">0€<small class="text-body-secondary fw-light">/mes</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <label class="text-secondary">Tu asistente sabrá...</label><br><br>
-                            <li>Descripción general de la empresa</li>
-                            <li>Uso limitado</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-outline-success">Añadir</button>
-                    </div>
-                </div>
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header bg-color py-3">
+              <h4 class="my-0 fw-normal">{% trans 'Gratis' %}</h4>
             </div>
-            
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm border-success">
-                    <div class="card-header py-3 text-bg-success border-success">
-                        <h4 class="my-0 fw-normal">Anual</h4>
-                        <label>Recomendado</label>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">450€<small class="text-body-secondary fw-light">/año</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <label class="text-secondary">Tu asistente sabrá...</label><br><br>
-                            <li>Descripción detallada de la empresa</li>
-                            <li>Información de horarios</li>
-                            <li>Información de contacto</li>
-                            <li><b>Información de productos</b></li>
-                            <li><b>Tarifa de productos</b></li>
-                            <li><b>Información de servicios</b></li>
-                            <li><b>Tarifa de servicios</b></li>
-                            <li><b>Memoria de conversación</b></li>
-                            <li><b>Informes de conversaciones</b></li>
-                            <li>Ilimitado 24/7/365</li>
-                            <li>(Información gestionada mediante panel)</li>
-                        </ul>
-                        <a href="{% url 'home_app:tarifa_anual' %}">
-                            <button type="button" class="w-100 btn btn-lg btn-success">Añadir</button>
-                        </a>
-                    </div>
-                </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">0€<small class="text-body-secondary fw-light">/{% trans 'mes' %}</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <label class="text-secondary">{% trans 'Tu asistente sabrá' %}...</label><br><br>
+                <li>{% trans 'Descripción general de la empresa' %}</li>
+                <li>{% trans 'Uso limitado' %}</li>
+              </ul>
+              <button type="button" class="w-100 btn btn-lg bg-color">{% trans 'Añadir' %}</button>
             </div>
-            
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Mensual</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">45€<small class="text-body-secondary fw-light">/mes</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <label class="text-secondary">Tu asistente sabrá...</label><br><br>
-                            <li>Descripción detallada de la empresa</li>
-                            <li>Información de horarios</li>
-                            <li>Información de contacto</li>
-                            <li><b>Información de productos</b></li>
-                            <li><b>Tarifa de productos</b></li>
-                            <li><b>Información de servicios</b></li>
-                            <li><b>Tarifa de servicios</b></li>
-                            <li><b>Memoria de conversación</b></li>
-                            <li><b>Informes de conversaciones</b></li>
-                            <li>Ilimitado 24/7/365</li>
-                            <li>(Información gestionada mediante panel)</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg border-success">Añadir</button>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm border-success">
+            <div class="card-header py-3 bg-color border-success">
+              <h4 class="my-0 fw-normal">{% trans 'Anual' %}</h4>
+              <label>{% trans 'Recomendado' %}</label>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">450€<small class="text-body-secondary fw-light">/{% trans 'año' %}</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <label class="text-secondary">{% trans 'Tu asistente sabrá' %}...</label><br><br>
+                <li>{% trans 'Descripción detallada de la empresa' %}</li>
+                <li>{% trans 'Información de horarios' %}</li>
+                <li>{% trans 'Información de contacto' %}</li>
+                <li><b>{% trans 'Información de productos' %}</b></li>
+                <li><b>{% trans 'Tarifa de productos' %}</b></li>
+                <li><b>{% trans 'Información de servicios' %}</b></li>
+                <li><b>{% trans 'Tarifa de servicios' %}</b></li>
+                <li><b>{% trans 'Memoria de conversación' %}</b></li>
+                <li><b>{% trans 'Informes de conversaciones' %}</b></li>
+                <li>{% trans 'Ilimitado 24/7/365' %}</li>
+                <li>{% trans '(Información gestionada mediante panel)' %}</li>
+              </ul>
+              <a href="{% url 'home_app:tarifa_anual' %}" class="w-100 btn btn-lg bg-color">{% trans 'Añadir' %}</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header bg-color py-3">
+              <h4 class="my-0 fw-normal">{% trans 'Mensual' %}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">45€<small class="text-body-secondary fw-light">/{% trans 'mes' %}</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <label class="text-secondary">{% trans 'Tu asistente sabrá' %}...</label><br><br>
+                <li>{% trans 'Descripción detallada de la empresa' %}</li>
+                <li>{% trans 'Información de horarios' %}</li>
+                <li>{% trans 'Información de contacto' %}</li>
+                <li><b>{% trans 'Información de productos' %}</b></li>
+                <li><b>{% trans 'Tarifa de productos' %}</b></li>
+                <li><b>{% trans 'Información de servicios' %}</b></li>
+                <li><b>{% trans 'Tarifa de servicios' %}</b></li>
+                <li><b>{% trans 'Memoria de conversación' %}</b></li>
+                <li><b>{% trans 'Informes de conversaciones' %}</b></li>
+                <li>{% trans 'Ilimitado 24/7/365' %}</li>
+                <li>{% trans '(Información gestionada mediante panel)' %}</li>
+              </ul>
+              <button type="button" class="w-100 btn btn-lg bg-color">{% trans 'Añadir' %}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-</div>
+  </div>
+</section>
+
 
 <div class="w-100 bg-light p-5">
   <div class="container">
     <div class="row">
-      <h2 class="display-6 text-center mb-4">Plan a tu medida</h2>
+      <h2 class="display-6 text-center mb-4">{% trans 'Plan a tu medida' %}</h2>
 
       <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">
           <thead class="table-light">
             <tr>
               <th style="width: 34%;"></th>
-              <th style="width: 22%;">Gratis</th>
-              <th style="width: 22%;">Anual</th>
-              <th style="width: 22%;">Mensual</th>
+              <th style="width: 22%;">{% trans 'Gratis' %}</th>
+              <th style="width: 22%;">{% trans 'Anual' %}</th>
+              <th style="width: 22%;">{% trans 'Mensual' %}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" class="text-start">Panel de gestión de asistentes</th>
-              <td>✅</td>
-              <td>✅</td>
-              <td>✅</td>
+              <th scope="row" class="text-start">{% trans 'Panel de gestión de asistentes' %}</th>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Descripción de la empresa</th>
-              <td>✅</td>
-              <td>
-                ✅
-              </td>
-              <td>✅</td>
+              <th scope="row" class="text-start">{% trans 'Descripción de la empresa' %}</th>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Información de horarios</th>
+              <th scope="row" class="text-start">{% trans 'Información de horarios' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
           </tbody>
           <tbody>
             <tr>
-              <th scope="row" class="text-start">Información de contacto</th>
+              <th scope="row" class="text-start">{% trans 'Información de contacto' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Productos: Información, precios y promociones</th>
+              <th scope="row" class="text-start">{% trans 'Productos: Información, precios y promociones' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Productos: Venta directa</th>
+              <th scope="row" class="text-start">{% trans 'Productos: Venta directa' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Servicios: Información, precios y promociones</th>
+              <th scope="row" class="text-start">{% trans 'Servicios: Información, precios y promociones' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Servicios: Venta directa</th>
+              <th scope="row" class="text-start">{% trans 'Servicios: Venta directa' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Preguntas y respuestas</th>
+              <th scope="row" class="text-start">{% trans 'Preguntas y respuestas' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Carácter de asistente (formal, informal, cercano, etc.)</th>
+              <th scope="row" class="text-start">{% trans 'Carácter de asistente (formal, informal, cercano, etc.)' %}/th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Informes de conversación</th>
+              <th scope="row" class="text-start">{% trans 'Informes de conversación' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Uso ilimitado 7/24/365</th>
+              <th scope="row" class="text-start">{% trans 'Uso ilimitado 7/24/365' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             
             <tr>
-              <th scope="row" class="text-start">Logo de empresa</th>
+              <th scope="row" class="text-start">{% trans 'Logo de empresa' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start">Imagen/animación de asistente personalizable</th>
+              <th scope="row" class="text-start">{% trans 'Imagen/animación de asistente personalizable' %}</th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
             <tr>
-              <th scope="row" class="text-start"><button class="btn bg-success text-white w-100" id="asistenciatecnica"><b>Asistencia técnica/telefónica</b></button></th>
+              <th scope="row" class="text-start"><button class="btn bg-color text-white w-100" id="asistenciatecnica"><b>{% trans 'Asistencia técnica/telefónica' %}</b></button></th>
               <td>-</td>
-              <td>✅</td>
-              <td>✅</td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
+              <td><img src="{% static 'img/icono-violeta-impruve.png' %}" width="30"></td>
             </tr>
           </tbody>
         </table>
@@ -388,7 +539,7 @@ body{
     
     <div class="row">
       <div class="col-12 text-center">
-        <h1>Contactar</h1>
+        <h1>{% trans 'Contactar' %}</h1>
       </div>
     </div>
 
@@ -411,14 +562,14 @@ body{
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <label for="name">{% trans 'Nombre' %}</label>
+                    <input type="text" class="form-control forms-input" id="name" name="name" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <label for="email">{% trans 'Email' %}</label>
+                    <input type="email" class="form-control forms-input" id="email" name="email" required>
                 </div>
             </div>
         </div>
@@ -426,14 +577,14 @@ body{
         <div class="row mt-3">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="phone">Teléfono</label>
-                    <input type="text" class="form-control" id="phone" name="phone">
+                    <label for="phone">{% trans 'Teléfono' %}</label>
+                    <input type="text" class="form-control forms-input" id="phone" name="phone">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="company">Empresa</label>
-                    <input type="text" class="form-control" id="company" name="company">
+                    <label for="company">{% trans 'Empresa' %}</label>
+                    <input type="text" class="form-control forms-input" id="company" name="company">
                 </div>
             </div>
         </div>
@@ -441,8 +592,8 @@ body{
         <div class="row mt-3">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="message">Mensaje</label>
-                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    <label for="message">{% trans 'Mensaje' %}</label>
+                    <textarea class="form-control forms-input" id="message" name="message" rows="5" required></textarea>
                 </div>
             </div>
         </div>
@@ -455,7 +606,7 @@ body{
 
         <div class="row mt-3">
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-success w-100">Enviar</button>
+                <button type="submit" class="btn bg-color w-100">{% trans 'Enviar' %}</button>
             </div>
         </div>
 
@@ -473,7 +624,7 @@ body{
   <div class="modal-dialog modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Añade información básica:</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Añade información básica:' %}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -482,8 +633,8 @@ body{
         <div class="form-group">
             {{ form.as_p }}
         </div>
-        <button type="submit" class="btn btn-success w-100">Guardar</button><br><br>
-        <label class="text-dark">Nota: Desde el panel de control se puede actualizar y detallar toda la información para el asistente virtual</label>
+        <button type="submit" class="btn bg-color w-100">{% trans 'Guardar' %}</button><br><br>
+        <label class="text-dark">{% trans 'Nota: Desde el panel de control se puede actualizar y detallar toda la información para el asistente virtual' %}</label>
     </form>
       </div>
       <div class="modal-footer">
