@@ -516,10 +516,6 @@ class FAQUpdateView(LoginRequiredMixin, UpdateView):
 
 
 
-
-<<<<<<< HEAD
-
-
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE, 
     "client_id": settings.PAYPAL_CLIENT_ID,
@@ -586,8 +582,7 @@ def execute_payment(request, plan_type):
         return redirect("subscription_success")  # Redirigir a una página de éxito
     else:
         return redirect("subscription_failed")  # Redirigir a una página de fallo
-=======
+
 class Pagina_qr_view(TemplateView):
     # Especificamos la plantilla a utilizar
     template_name = "home/qr.html"
->>>>>>> olvin
