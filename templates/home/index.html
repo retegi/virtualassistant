@@ -239,7 +239,7 @@ body{
       <div class="col-12 col-md-4 py-5">
         <div class="flip-card">
           <div class="flip-card-inner">
-            <h3>1. {% trans 'Elige un nombre para tu asistente virtual' %}</h3>
+            <h3>1. {% trans 'Completa la información de productos, servicios y ofertas especiales' %}</h3>
             <div class="flip-card-front">
               <img src="{% static 'img/virtual-asistente-segundo-paso.webp' %}" alt="Imagen 2" class="img-fluid">
             </div>
@@ -254,7 +254,7 @@ body{
       <div class="col-12 col-md-4 py-5">
         <div class="flip-card">
           <div class="flip-card-inner">
-            <h3>1. {% trans 'Elige un nombre para tu asistente virtual' %}</h3>
+            <h3>1. {% trans 'Añade el enlace o código del asistente a tu web' %}</h3>
             <div class="flip-card-front">
               <img src="{% static 'img/vistual-asistente-tercer-paso.webp' %}" alt="Imagen 3" class="img-fluid">
             </div>
@@ -284,7 +284,7 @@ body{
               apartado o seccion para las demos
 =================================================================-->
 <div class="container text-center my-5 py-5 bg-light">
-  <h2 class="mb-4">🔍 {% trans "Echa un vistazo a nuestros proyectos" %}</h2>
+  <h2 class="mb-5">🔍 {% trans "Echa un vistazo a nuestros proyectos" %}</h2>
   <div class="row justify-content-center">
       
       <!-- Card 1: CAF -->
@@ -344,64 +344,6 @@ body{
             <div class="card-header bg-color py-3">
               <h4 class="my-0 fw-normal">{% trans 'Gratis' %}</h4>
             </div>
-<<<<<<< HEAD
-            
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm border-success">
-                    <div class="card-header py-3 text-bg-success border-success">
-                        <h4 class="my-0 fw-normal">Anual</h4>
-                        <label>Recomendado</label>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">450€<small class="text-body-secondary fw-light">/año</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <label class="text-secondary">Tu asistente sabrá...</label><br><br>
-                            <li>Descripción detallada de la empresa</li>
-                            <li>Información de horarios</li>
-                            <li>Información de contacto</li>
-                            <li><b>Información de productos</b></li>
-                            <li><b>Tarifa de productos</b></li>
-                            <li><b>Información de servicios</b></li>
-                            <li><b>Tarifa de servicios</b></li>
-                            <li><b>Memoria de conversación</b></li>
-                            <li><b>Informes de conversaciones</b></li>
-                            <li>Ilimitado 24/7/365</li>
-                            <li>(Información gestionada mediante panel)</li>
-                        </ul>
-                        <a href="{% url 'home_app:tarifa_anual' %}">
-                            
-                            <a href="{% url 'paypal_payment' 'PREMIUM_ANNUAL' %}" class="w-100 btn btn-lg btn-success">Suscribirse Anual - 450€</a>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Mensual</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">45€<small class="text-body-secondary fw-light">/mes</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <label class="text-secondary">Tu asistente sabrá...</label><br><br>
-                            <li>Descripción detallada de la empresa</li>
-                            <li>Información de horarios</li>
-                            <li>Información de contacto</li>
-                            <li><b>Información de productos</b></li>
-                            <li><b>Tarifa de productos</b></li>
-                            <li><b>Información de servicios</b></li>
-                            <li><b>Tarifa de servicios</b></li>
-                            <li><b>Memoria de conversación</b></li>
-                            <li><b>Informes de conversaciones</b></li>
-                            <li>Ilimitado 24/7/365</li>
-                            <li>(Información gestionada mediante panel)</li>
-                        </ul>
-                        
-                      <a href="{% url 'paypal_payment' 'PREMIUM_MONTHLY' %}" class="w-100 btn btn-lg btn-success">Suscribirse Mensual - 45€</a>
-                    </div>
-                </div>
-=======
             <div class="card-body">
               <h1 class="card-title pricing-card-title">0€<small class="text-body-secondary fw-light">/{% trans 'mes' %}</small></h1>
               <ul class="list-unstyled mt-3 mb-4">
@@ -410,7 +352,6 @@ body{
                 <li>{% trans 'Uso limitado' %}</li>
               </ul>
               <button type="button" class="w-100 btn btn-lg bg-color">{% trans 'Añadir' %}</button>
->>>>>>> olvin
             </div>
           </div>
         </div>
