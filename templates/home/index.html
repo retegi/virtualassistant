@@ -555,62 +555,63 @@ body{
     {% endfor %}
   {% endif %}
   
+<!-- Formulario de Contacto -->
 <div class="container">
-    <form method="post" action="{% url 'home_app:formulario_contactar' %}">
-        {% csrf_token %}
+  <form method="post" action="{% url 'home_app:formulario_contactar' %}" id="contact-form">
+      {% csrf_token %}
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="name">{% trans 'Nombre' %}</label>
-                    <input type="text" class="form-control forms-input" id="name" name="name" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="email">{% trans 'Email' %}</label>
-                    <input type="email" class="form-control forms-input" id="email" name="email" required>
-                </div>
-            </div>
-        </div>
+      <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="name">{% trans 'Nombre' %}</label>
+                  <input type="text" class="form-control forms-input" id="name" name="name" required>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="email">{% trans 'Email' %}</label>
+                  <input type="email" class="form-control forms-input" id="email" name="email" required>
+              </div>
+          </div>
+      </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="phone">{% trans 'Teléfono' %}</label>
-                    <input type="text" class="form-control forms-input" id="phone" name="phone">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="company">{% trans 'Empresa' %}</label>
-                    <input type="text" class="form-control forms-input" id="company" name="company">
-                </div>
-            </div>
-        </div>
+      <div class="row mt-3">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="phone">{% trans 'Teléfono' %}</label>
+                  <input type="text" class="form-control forms-input" id="phone" name="phone">
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="company">{% trans 'Empresa' %}</label>
+                  <input type="text" class="form-control forms-input" id="company" name="company">
+              </div>
+          </div>
+      </div>
 
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="message">{% trans 'Mensaje' %}</label>
-                    <textarea class="form-control forms-input" id="message" name="message" rows="5" required></textarea>
-                </div>
-            </div>
-        </div>
+      <div class="row mt-3">
+          <div class="col-12">
+              <div class="form-group">
+                  <label for="message">{% trans 'Mensaje' %}</label>
+                  <textarea class="form-control forms-input" id="message" name="message" rows="5" required></textarea>
+              </div>
+          </div>
+      </div>
 
-        <div class="row mt-3 text-center">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="g-recaptcha" data-sitekey="6Lfrkt0qAAAAAP-m1ZDxmp50hlj-5V4dX2ipxxIa"></div>
-            </div>
-        </div>
+      <div class="row mt-3 text-center">
+          <div class="col-12 d-flex justify-content-center">
+              <div class="g-recaptcha" data-sitekey="6Lfrkt0qAAAAAP-m1ZDxmp50hlj-5V4dX2ipxxIa"></div>
+          </div>
+      </div>
 
-        <div class="row mt-3">
-            <div class="col-12 text-center">
-                <button type="submit" class="btn bg-color w-100">{% trans 'Enviar' %}</button>
-            </div>
-        </div>
+      <div class="row mt-3">
+          <div class="col-12 text-center">
+              <button type="submit" class="btn bg-color w-100" id="btn-enviar">{% trans 'Enviar' %}</button>
+          </div>
+      </div>
 
-    </form>
+  </form>
 </div>
 
 
@@ -652,6 +653,7 @@ body{
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+      // Desaparece los mensajes de alerta después de 5 segundos
       setTimeout(function () {
           let alerts = document.querySelectorAll(".alert");
           alerts.forEach(function (alert) {
@@ -659,10 +661,32 @@ body{
               alert.style.opacity = "0";
               setTimeout(() => alert.remove(), 500); // Elimina el mensaje después de la animación
           });
-      }, 5000); // Desaparece después de 5 segundos
+      }, 5000);
+
+      // Obtener el formulario y agregar validación
+      document.querySelector("form").addEventListener("submit", function (event) {
+          let recaptchaResponse = grecaptcha.getResponse();
+          
+          if (!recaptchaResponse) { // Si no se ha marcado el reCAPTCHA
+              event.preventDefault(); // Evita que el formulario se envíe
+              
+              // Verificar si ya existe una alerta y evitar duplicados
+              if (!document.querySelector(".recaptcha-alert")) {
+                  let alerta = document.createElement("div");
+                  alerta.className = "alert alert-danger text-center mt-3 recaptcha-alert";
+                  alerta.innerHTML = "⚠️ Debes completar el reCAPTCHA antes de enviar.";
+                  
+                  // Insertar el mensaje después del botón de enviar
+                  let botonEnviar = document.getElementById("btn-enviar");
+                  botonEnviar.parentNode.appendChild(alerta);
+
+                  // Desaparece la alerta después de 5 segundos
+                  setTimeout(() => alerta.remove(), 5000);
+              }
+          }
+      });
   });
 </script>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

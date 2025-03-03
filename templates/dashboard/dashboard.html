@@ -2,18 +2,26 @@
 
 {% block head %}
 <style>
-.bg-color {
+.bg-color{
     color: white;
     background-color: #8a2be2;
 }
+
+/* Efecto Hover */
+.bg-color:hover{
+    background-color: #6a1bbd; /* Un tono más oscuro en hover */
+    border-color: #8a2be2; /* Mantiene el color original en el borde */
+}
+
+
 </style>
 {% endblock %}  
 
 {% block content %}
 
-<main role="main" class="col-md-9 ms-auto col-lg-10 px-4 mt-5">
+<main role="main" class="col-md-9 ms-auto col-lg-10 px-4 mt-5 py-5 section-with-margin">
   <!-- Encabezado del Dashboard -->
-  <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom mt-5">
       <h1 class="h2 fw-bold mt-3">Panel de control</h1>
       <a href="{% url 'home_app:assistant_create' %}" class="btn mt-3">
           <i class="bi bi-plus-lg"></i><button class="bg-color p-2" style="border-radius: 8px;">Crear nuevo asistente</button>
@@ -56,65 +64,66 @@
                           <th scope="row" class="fw-semibold text-start">{{ forloop.counter }}</th>
                           <td class="fw-semibold text-start px-2">{{ dato.assistant_url_name }}</td>
                           <td>
-                              <a href="{% url 'home_app:assistant_detail' dato.id %}" class="btn btn-sm btn-outline-success m-1">
+                              <a href="{% url 'home_app:assistant_dlor: #8a2be2; /* Mantiene el color original en el borde */
+                              etail' dato.id %}" class="btn btn-sm bg-color m-1">
                                   <i class="bi bi-eye"></i> Ver
                               </a>
-                              <a href="{% url 'home_app:assistant_update' dato.id %}" class="btn btn-sm btn-outline-secondary m-1">
+                              <a href="{% url 'home_app:assistant_update' dato.id %}" class="btn btn-sm bg-color m-1">
                                   <i class="bi bi-pencil"></i> Editar
                               </a>
-                              <a href="{% url 'home_app:assistant_delete' dato.id %}" class="btn btn-sm btn-outline-danger m-1">
+                              <a href="{% url 'home_app:assistant_delete' dato.id %}" class="btn btn-sm bg-color m-1">
                                   <i class="bi bi-trash"></i> Eliminar
                               </a>
                           </td>
                           <td>
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
                                       Añadir
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:create_product' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:create_product' dato.id %}" class="btn bg-color btn-sm m-1 w-100">
                                           <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
                               {% endif %}
                               
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
                                       Ver
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-sm m-1 w-100"  style="border-color: #8a2be2;">
                                       <i class="bi bi-box"></i> Ver
                                   </a>
                               {% endif %}
                           </td>
                           <td>
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
                                       Añadir
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:create_service' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:create_service' dato.id %}" class="btn bg-color btn-sm m-1 w-100">
                                       <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
                               {% endif %}
                               
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
                                       Ver
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-sm m-1 w-100" style="border-color: #8a2be2;">
                                       <i class="bi bi-wrench"></i> Ver servicios
                                   </a>
                               {% endif %}
                           </td>
                           <td>
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
                                       Añadir
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:create_faq' dato.id %}" class="btn btn-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:create_faq' dato.id %}" class="btn bg-color btn-sm m-1 w-100">
                                       <i class="bi bi-plus-lg"></i> Añadir
                                   </a>
                               {% endif %}
@@ -124,7 +133,7 @@
                                       Ver
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-outline-primary btn-sm m-1 w-100">
+                                  <a href="{% url 'home_app:list_faq' dato.id %}" class="btn btn-sm m-1 w-100" style="border-color: #8a2be2;">
                                       <i class="bi bi-wrench"></i> Ver preguntas y respuestas
                                   </a>
                               {% endif %}
@@ -136,7 +145,7 @@
                                   </button>
                               {% else %}
                                   <a href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" target="_blank">
-                                      <button class="btn btn-success btn-sm p-3 w-100">
+                                      <button class="btn btn-sm p-3 w-100" style="background-color:#3a9dd6;color:#fff;">
                                           <b>Probar<br>asistente</b>
                                       </button>
                                   </a>

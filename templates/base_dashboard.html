@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS (Requiere Popper.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,58 +19,60 @@
             font-style: normal;
         }
 
-        /* Asegura que el sidebar ocupe toda la altura */
         .sidebar {
             height: 100vh;
             position: fixed;
-            top: 56px; /* Ajuste para que empiece justo debajo del navbar */
+            top: 56px;
             left: 0;
-            width: 250px;
+            width: 300px;
             background-color: #ededed;
             padding-top: 20px;
             overflow-y: auto;
         }
 
-        /* Ajuste del contenido para que no quede detrás del sidebar */
         .content {
-            margin-left: 250px;  /* Espacio a la izquierda para el sidebar */
-            margin-top: 60px;    /* Ajuste para evitar que el texto quede oculto */
+            margin-left: 250px;
+            margin-top: 60px;
             padding: 20px;
             text-align: left;
         }
 
         .bg-color {
-            color: white;
+            color: white !important;
             background-color: #8a2be2;
         }
+
+        /* Efecto Hover */
+        .bg-color:hover {
+            background-color: #6a1bbd;
+        }
     </style>
+    
 </head>
 <body>
 
 <!-- Barra de Navegación Superior -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-color fixed-top">
     <div class="container-fluid">
-        <!-- Logo -->
-        <a class="navbar-brand" href="{% url 'home_app:dashboard' %}"><label class="h3 grand-hotel-regular">TuAsistenteInteligente.com</label></a>
-        
-        <!-- Menú de Usuario en Móvil -->
+        <a class="navbar-brand" href="{% url 'home_app:dashboard' %}">
+            <label class="h3 grand-hotel-regular">TuAsistenteInteligente.com</label>
+        </a>
+
         <div class="d-flex align-items-center">
             <div class="dropdown">
-                <span class="h4 p-1 text-white">Llama y te ayudamos <b>635726721</b></span>
-                
+                <span class="h4 p-1 text-white">Llama y te ayudamos <b>+34 635 726 721</b></span>
                 <button class="btn text-white dropdown-toggle border-1 border-white" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="35" height="35" alt="Usuario">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
                     <li><a class="dropdown-item" href="#">Cuenta</a></li>
-                    <li><a class="dropdown-item" href="#">Cambiar Contraseña</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Cambiar Contraseña</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
                 </ul>
             </div>
             
-            <!-- Botón de Menú (Sidebar en móvil) -->
             <button class="navbar-toggler ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -79,7 +80,7 @@
     </div>
 </nav>
 
-<!-- Sidebar Lateral -->
+<!-- Sidebar Lateral (Eliminado duplicado) -->
 <div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title">Menú</h5>
@@ -94,38 +95,9 @@
         </div>
 
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link btn bg-white w-100" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'home_app:home' %}">🔘  Página web</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'home_app:assistant_create' %}">🔘 Crear Asistente</a></li>
-        </ul>
-    </div>
-</div>
-
-<!-- Sidebar en Escritorio -->
-<!-- Sidebar Lateral -->
-<div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Menú</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="text-center mb-3">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="80" height="80" alt="Usuario">
-            {% if user.is_authenticated %}
-            <p class="fw-bold mt-2">{{ user.username }}</p>
-          {% endif %}
-        </div>
-
-        <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="{% url 'home_app:dashboard' %}"><button class="btn bg-white w-100">Panel inicial</button></a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'home_app:home' %}">🔘  Página web</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'home_app:assistant_create' %}">🔘 Crear Asistente</a></li>
-            <!--<li class="nav-item"><a class="nav-link" href="#">📄 Forms</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">🔔 Alerts</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">⭐ Ratings</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">🖼️ Images</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">📄 Pagination</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">📋 Tables</a></li>-->
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:home' %}">Página web</a></li>
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:assistant_create' %}">Crear Asistente</a></li>
         </ul>
     </div>
 </div>
@@ -136,18 +108,12 @@
         <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="80" height="80" alt="Usuario">
         {% if user.is_authenticated %}
         <p class="fw-bold mt-2">{{ user.username }}</p>
-      {% endif %}
+        {% endif %}
     </div>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="{% url 'home_app:dashboard' %}"><button class="btn bg-white w-100">Panel inicial</button></a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'home_app:home' %}"><button class="btn bg-white w-100">Página web</button></a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'home_app:assistant_create' %}"><button class="btn bg-white w-100">Crear Asistente</button></a></li>
-        <!--<li class="nav-item"><a class="nav-link" href="#">📄 Forms</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">🔔 Alerts</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">⭐ Ratings</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">🖼️ Images</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">📄 Pagination</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">📋 Tables</a></li>-->
+    <ul class="nav flex-column m-3">
+        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
+        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:home' %}">Página web</a></li>
+        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:assistant_create' %}">Crear Asistente</a></li>
     </ul>
 </div>
 
