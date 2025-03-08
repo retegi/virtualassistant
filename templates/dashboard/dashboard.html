@@ -13,7 +13,6 @@
     border-color: #8a2be2; /* Mantiene el color original en el borde */
 }
 
-
 </style>
 {% endblock %}  
 
@@ -65,14 +64,14 @@
                           <td class="fw-semibold text-start px-2">{{ dato.assistant_url_name }}</td>
                           <td>
                               <a href="{% url 'home_app:assistant_dlor: #8a2be2; /* Mantiene el color original en el borde */
-                              etail' dato.id %}" class="btn btn-sm bg-color m-1">
-                                  <i class="bi bi-eye"></i> Ver
+                              etail' dato.id %}" class="btn btn-sm bg-color m-1" style="width: 70px;">
+                                 Ver
                               </a>
-                              <a href="{% url 'home_app:assistant_update' dato.id %}" class="btn btn-sm bg-color m-1">
-                                  <i class="bi bi-pencil"></i> Editar
+                              <a href="{% url 'home_app:assistant_update' dato.id %}" class="btn btn-sm bg-color m-1" style="width: 70px;">
+                                 Editar
                               </a>
-                              <a href="{% url 'home_app:assistant_delete' dato.id %}" class="btn btn-sm bg-color m-1">
-                                  <i class="bi bi-trash"></i> Eliminar
+                              <a href="{% url 'home_app:assistant_delete' dato.id %}" class="btn btn-sm bg-color m-1" style="width: 70px;">
+                                  Eliminar
                               </a>
                           </td>
                           <td>

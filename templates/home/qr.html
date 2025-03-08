@@ -54,6 +54,66 @@
         margin: 0 auto; /* Centra la imagen */
   }
   </style>
+
+
+<style>
+  /* Estilos para el popup */
+  .popup-modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .popup-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid #8a2be2; /* Borde morado */
+  }
+
+  .popup-modal h4 {
+    color: #8a2be2;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .popup-modal p {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .close-btn {
+    color: #8a2be2;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+  }
+
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
 {% endblock %}
 
 {% block content %}
@@ -147,7 +207,9 @@
             </div>
             <h5 class="card-title">La mejor pizza en tu hogar</h5>
             <p class="difficulty">Descubre cómo Telepizza está llevando la mejor pizza a tu casa con su plataforma en línea.</p>
-            <button class="btn btn-primary">Ver Asistente</button>
+            <a href="https://www.tuasistenteinteligente.com/telepizza/">
+              <button class="btn btn-primary">Ver Asistente</button>
+            </a>
           </div>
         </div>
       </div>
@@ -188,22 +250,56 @@
         </div>
       </div>
 
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-header">
-            Marketing Digital
+     
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">
+          Marketing Digital
+        </div>
+        <div class="card-body">
+          <div class="icon-container">
+            <img src="{% static 'img/icono-violeta-impruve.png' %}" alt="GitHub" class="icon-image">
           </div>
-          <div class="card-body">
-            <div class="icon-container">
-                <img src="{% static 'img/icono-violeta-impruve.png' %}" alt="GitHub" class="icon-image">
-            </div>
-            <h5 class="card-title">Curso de Marketing Digital</h5>
-            <p class="difficulty">Dificultad: Media</p>
-            <button class="btn btn-primary">Ver Asistente</button>
-          </div>
+          <h5 class="card-title">Curso de Marketing Digital</h5>
+          <p class="difficulty">Dificultad: Media</p>
+          <button class="btn btn-primary" id="viewAssistantBtn">Ver Asistente</button>
         </div>
       </div>
     </div>
+    <!-- Popup Modal -->
+    <div id="popupModal" class="popup-modal">
+      <div class="popup-modal-content">
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <h4>Este asistente está en desarrollo</h4>
+        <p>Por ahora, este asistente no está disponible. ¡Estamos trabajando en ello!</p>
+      </div>
+    </div>
+    </div>
   </div>
 
+
+  <script>
+    // Obtener elementos del DOM
+    const btn = document.getElementById("viewAssistantBtn");
+    const modal = document.getElementById("popupModal");
+    const closeBtn = document.getElementById("closeBtn");
+  
+    // Cuando se haga clic en el botón, mostrar el popup
+    btn.addEventListener("click", function() {
+      modal.style.display = "block";  // Mostrar el popup
+    });
+  
+    // Cuando se haga clic en la "X", cerrar el popup
+    closeBtn.addEventListener("click", function() {
+      modal.style.display = "none";  // Ocultar el popup
+    });
+  
+    // Cuando se haga clic fuera del popup, también cerrarlo
+    window.addEventListener("click", function(event) {
+      if (event.target === modal) {
+        modal.style.display = "none";  // Ocultar el popup
+      }
+    });
+  </script>
+  
   {% endblock %}

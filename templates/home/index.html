@@ -108,7 +108,7 @@ body{
       .bg-color:hover {
         color: white;
         transform: scale(1.05);
-        background-color:#8a2be2 ;
+        background-color:#8a2be2;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       }
 
@@ -167,6 +167,54 @@ body{
   text-align: center;
 }
 </style>
+
+
+<style>
+  #cookie-section {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+  }
+  #cookie-banner {
+      background: #fffeff;
+      color: #000000;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 500px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  #cookie-banner p {
+      font-size: 16px;
+      margin-bottom: 20px;
+  }
+  .cookie-buttons button {
+      margin: 10px;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: 0.3s;
+  }
+  .accept-btn { background:#8a2be2; color: white; }
+  .reject-btn { background:#8a2be2; color: white; }
+  .manage-btn { background:#8a2be2; color: white; }
+  .cookie-buttons button:hover {
+      opacity: 0.8;
+  }
+</style>
+
+
+
+
 {% endblock %}
 
 {% block content %}
@@ -647,6 +695,60 @@ body{
 </div>
 
 
+
+
+<!--==============================================================
+        esta es la seccion para el alert de cookies
+====================================================================-->
+
+<section id="cookie-section">
+  <div id="cookie-banner">
+      <p><strong>Política de Cookies</strong></p>
+      <p>Utilizamos cookies para mejorar tu experiencia, personalizar contenido y analizar nuestro tráfico. Al hacer clic en "Aceptar", consientes el uso de cookies. Puedes gestionar tus preferencias en cualquier momento.</p>
+      <div class="cookie-buttons">
+          <button class="accept-btn" onclick="setCookiePreference('accepted')">Aceptar</button>
+          <button class="reject-btn" onclick="setCookiePreference('rejected')">Rechazar</button>
+          <button class="manage-btn" onclick="openCookieSettings()">Gestionar</button>
+      </div>
+  </div>
+</section>
+
+<!--==============================================================
+        esta es la seccion para el alert de cookies
+====================================================================-->
+
+
+
+<!--==============================================================
+        este es el javascript para el alert de cookies
+====================================================================-->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      if (!localStorage.getItem("cookieConsent")) {
+          document.getElementById("cookie-section").style.display = "flex";
+      } else {
+          document.getElementById("cookie-section").style.display = "none";
+      }
+  });
+
+  function setCookiePreference(choice) {
+      localStorage.setItem("cookieConsent", choice);
+      document.getElementById("cookie-section").style.display = "none";
+  }
+
+  function openCookieSettings() {
+      alert("Aquí podrías abrir un modal con más configuraciones de cookies.");
+  }
+</script>
+
+<!--===========================================================
+          fin del javascript para el alert de cookies
+===============================================================-->
+
+
+
+
 <!--esto es para el recapcha-->
 <!-- Cargar el script de Google reCAPTCHA -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -761,10 +863,6 @@ document.addEventListener("DOMContentLoaded", function () {
 <!--===================================================
             prueba del asistente de iñaki
 =======================================================-->
-
-
-
-
 
 
 <!--OpenAI-->

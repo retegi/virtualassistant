@@ -582,3 +582,13 @@ def execute_payment(request, plan_type):
 class Pagina_qr_view(TemplateView):
     # Especificamos la plantilla a utilizar
     template_name = "home/qr.html"
+
+
+class CookiesView(TemplateView):
+    template_name = 'home/cookies.html'
+
+class Aviso_legalView(TemplateView):
+    template_name = 'home/aviso_legal.html'
+
+class Politica_privacidadView(TemplateView):
+    template_name = 'home/politicas_privacidad.html'

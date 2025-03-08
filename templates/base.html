@@ -89,7 +89,7 @@
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="{% url 'home_app:home' %}" class="nav-link px-2 text-secondary">Home</a></li>
         <li><a href="{% url 'home_app:home' %}#tarifa" class="nav-link px-2 text-secondary">Tarifa</a></li>
-        <li><a target="_blank" href="https://www.tuasistenteinteligente.com/tuasistenteinteligente" class="nav-link px-2 bg-color">Asistente</a></li>
+        <li><a target="_blank" href="https://www.tuasistenteinteligente.com/Tuasistenteinteligente/" class="nav-link px-2 bg-color" style="text-decoration: none;">Asistente</a></li>
         <!--<li><a href="#" class="nav-link px-2 text-white">Ayuda</a></li>-->
         <li><a href="{% url 'home_app:home' %}#contact" class="nav-link px-2 text-secondary">Contact</a></li>
         <li><a href="{% url 'home_app:qr_scan' %}" class="nav-link px-2 text-secondary">Demos</a></li>
@@ -113,9 +113,9 @@
 <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Aviso Legal |</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Cookies |</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Politicas de Privacidad</a></li>
+      <li class="nav-item"><a href="{% url 'home_app:aviso_legal' %}" class="nav-link px-2 text-body-secondary">Aviso Legal |</a></li>
+      <li class="nav-item"><a href="{% url 'home_app:cookies' %}" class="nav-link px-2 text-body-secondary">Cookies |</a></li>
+      <li class="nav-item"><a href="{% url 'home_app:politicas_privacidad' %}" class="nav-link px-2 text-body-secondary">Politicas de Privacidad</a></li>
     </ul>
     <p class="text-center text-body-secondary">&copy; 2025 Euskodev</p>
   </footer>
@@ -258,6 +258,8 @@
         });
     });
 </script>
+
+
   <script>
 document.addEventListener("DOMContentLoaded", function() {
     let asistenciaButton = document.getElementById("paneldecontrol");

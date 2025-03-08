@@ -22,14 +22,17 @@ urlpatterns = [
         views.TarifaPageView.as_view(),
         name='tarifa',
     ),
+
     path('tarifa-anual/',
         views.TarifaAnualPageView.as_view(),
         name='tarifa_anual',
     ),
+
     path('tarifa-mensual/',
         views.TarifaMensualPageView.as_view(),
         name='tarifa_mensual',
     ),
+    
     path('dashboard/',
         views.DashboardView.as_view(),
         name='dashboard',
@@ -60,4 +63,10 @@ urlpatterns = [
 
 
     path('asistente_virtual/qr_scan/', views.Pagina_qr_view.as_view(), name='qr_scan'),
+    path('asistente_virtual/cookies/', views.CookiesView.as_view(), name='cookies'),
+    path('asistente_virtual/aviso_legal/', views.Aviso_legalView.as_view(), name='aviso_legal'),
+    path('asistente_virtual/politicas_privacidad/', views.Politica_privacidadView.as_view(), name='politicas_privacidad'),
+
+
+
 ]
