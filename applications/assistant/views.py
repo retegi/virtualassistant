@@ -53,94 +53,83 @@ def chat_view(request):
 
 
 
+class AssistantInstructionBuilder:
+    def __init__(self, assistant_url_name):
+        self.business_profile = get_object_or_404(BusinessProfile, assistant_url_name=assistant_url_name)
+        self.customer_profile = get_object_or_404(CustomerProfile, user=self.business_profile.user)
+
+    def get_products(self):
+        if self.has_premium_access():
+            products = Product.objects.filter(business=self.business_profile)
+            return "\n".join(p.get_product_info() for p in products) if products.exists() else "No hay productos disponibles."
+        return "No disponible en la versión gratuita."
+
+    def get_services(self):
+        if self.has_premium_access():
+            services = Service.objects.filter(business=self.business_profile)
+            return "\n".join(s.get_service_info() for s in services) if services.exists() else "No hay servicios disponibles."
+        return "No disponible en la versión gratuita."
+
+    def get_faqs(self):
+        if self.has_premium_access():
+            faqs = FAQ.objects.filter(business=self.business_profile)
+            return "\n".join(f"Pregunta: {f.question}\nRespuesta: {f.answer}" for f in faqs) if faqs.exists() else "No hay preguntas frecuentes disponibles."
+        return "No disponible en la versión gratuita."
+
+    def has_premium_access(self):
+        return self.customer_profile.subscription_type in [
+            SubscriptionType.PREMIUM_MONTHLY, 
+            SubscriptionType.PREMIUM_ANNUAL
+        ]
+
+    def build(self):
+        bp = self.business_profile
+        return f"""
+Eres un asistente virtual de la empresa {bp.company_name or "No disponible"}.
+Tu objetivo es proporcionar información sobre la empresa, sus productos, servicios y preguntas frecuentes a los clientes.
+
+🔹 **Importante**: 
+- Si la respuesta incluye una imagen, debes devolver solo la URL completa de la imagen con etiquetas HTML <img src="" class="w-50"> para mostrar la imagen, sin ningún texto adicional ni formato Markdown.
+- Si la respuesta incluye un enlace o url, debe devolver código con con etiqueta HTML <a href="" target="_blank">.
+- El sistema mostrará automáticamente las imágenes y los enlaces en el chat.
+
+Información de la empresa:
+- Nombre: {bp.company_name or "No disponible"}
+- Mostrar nombre: {"Sí" if bp.show_company_name else "No"}
+- Descripción: {bp.description or "No disponible"}
+- Contacto: {bp.contact_email or "No disponible"}, Teléfono: {bp.phone or "No disponible"}
+- Web: {bp.website or "No disponible"}
+- Dirección: {bp.address or "No disponible"}
+- Horario: {json.dumps(bp.business_hours, indent=4, ensure_ascii=False) if bp.business_hours else "No disponible"}
+- Redes Sociales: {json.dumps(bp.social_media, indent=4, ensure_ascii=False) if bp.social_media else "No disponible"}
+
+Personalización visual:
+- Imagen asistente: {bp.assistant_image.url if bp.assistant_image else "No disponible"}
+- Mostrar imagen: {"Sí" if bp.show_assistant_image else "No"}
+- Imagen fondo: {bp.background_image.url if bp.background_image else "No disponible"}
+- Colores: fondo {bp.background_color}, formulario {bp.form_background_color}, botón {bp.button_background_color}, texto botón {bp.button_text_color}, cliente {bp.chat_customer_text_color}, asistente {bp.chat_assistant_text_color}
+
+Configuración:
+- URL asistente: {bp.assistant_url_name or "No disponible"}
+- Logo empresa: {bp.company_logo.url if bp.company_logo else "No disponible"}
+- Mostrar logo: {"Sí" if bp.show_company_logo else "No"}
+
+Productos:
+{self.get_products()}
+
+Servicios:
+{self.get_services()}
+
+Preguntas frecuentes:
+{self.get_faqs()}
+
+Responde a las preguntas de los clientes basándote en esta información.
+        """
+
+# Uso:
 def load_instructions(assistant_url_name):
-    """
-    Carga las instrucciones del asistente basado en el BusinessProfile asociado al assistant_url_name.
-    """
-
-    # Obtener el perfil de negocio
-    business_profile = get_object_or_404(BusinessProfile, assistant_url_name=assistant_url_name)
-
-    # Obtener el perfil de cliente (CustomerProfile) asociado al usuario del BusinessProfile
-    customer_profile = get_object_or_404(CustomerProfile, user=business_profile.user)
-
-    # Verificar el tipo de suscripción del usuario
-    if customer_profile.subscription_type in [SubscriptionType.PREMIUM_MONTHLY, SubscriptionType.PREMIUM_ANNUAL]:
-        products = Product.objects.filter(business=business_profile)
-        services = Service.objects.filter(business=business_profile)
-        faqs = FAQ.objects.filter(business=business_profile)
-
-        # Construcción detallada de la lista de productos
-        product_list = "\n".join([
-            p.get_product_info() for p in products
-        ]) if products.exists() else "No hay productos disponibles."
-
-        # Construcción detallada de la lista de servicios
-        service_list = "\n".join([
-            s.get_service_info() for s in services
-        ]) if services.exists() else "No hay servicios disponibles."
-
-        # Construcción detallada de la lista de preguntas frecuentes
-        faq_list = "\n".join([
-            f"Pregunta: {faq.question}\nRespuesta: {faq.answer}" for faq in faqs
-        ]) if faqs.exists() else "No hay preguntas frecuentes disponibles."
-
-    else:
-        product_list = "No disponible en la versión gratuita."
-        service_list = "No disponible en la versión gratuita."
-        faq_list = "No disponible en la versión gratuita."
-
-    # Construcción detallada de la información del asistente
-    instructions = f"""
-    Eres un asistente virtual de la empresa {business_profile.company_name if business_profile.company_name else "No disponible"}.
-    Tu objetivo es proporcionar información sobre la empresa, sus productos, servicios y preguntas frecuentes a los clientes.
-
-    🔹 **Importante**: 
-    - Si la respuesta incluye una imagen, debes devolver solo la URL completa de la imagen con etiquetas HTML <img src="" class="w-50"> para mostrar la imagen, sin ningún texto adicional ni formato Markdown.
-    - Si la respuesta incluye un enlace o url, debe devolver código con con etiqueta HTML <a href="" public="_blank">.
-    - El sistema mostrará automáticamente las imágenes y los enlaces en el chat.
-
-    Información de la empresa:
-    - Nombre de la empresa: {business_profile.company_name if business_profile.company_name else "No disponible"}
-    - Mostrar nombre: {"Sí" if business_profile.show_company_name else "No"}
-    - Descripción: {business_profile.description if business_profile.description else "No disponible"}
-    - Contacto: {business_profile.contact_email if business_profile.contact_email else "No disponible"}, 
-      Teléfono: {business_profile.phone if business_profile.phone else "No disponible"}
-    - Sitio Web: {business_profile.website if business_profile.website else "No disponible"}
-    - Dirección: {business_profile.address if business_profile.address else "No disponible"}
-    - Horario de atención: {json.dumps(business_profile.business_hours, indent=4, ensure_ascii=False) if business_profile.business_hours else "No disponible"}
-    - Redes Sociales: {json.dumps(business_profile.social_media, indent=4, ensure_ascii=False) if business_profile.social_media else "No disponible"}
-
-    Personalización visual:
-    - Imagen del asistente: {business_profile.assistant_image.url if business_profile.assistant_image else "No disponible"}
-    - Mostrar imagen del asistente: {"Sí" if business_profile.show_assistant_image else "No"}
-    - Imagen de fondo: {business_profile.background_image.url if business_profile.background_image else "No disponible"}
-    - Color de fondo de la página: {business_profile.background_color if business_profile.background_color else "No disponible"}
-    - Color de fondo del formulario: {business_profile.form_background_color if business_profile.form_background_color else "No disponible"}
-    - Color de fondo del botón: {business_profile.button_background_color if business_profile.button_background_color else "No disponible"}
-    - Color de texto del botón: {business_profile.button_text_color if business_profile.button_text_color else "No disponible"}
-    - Color de texto del chat del cliente: {business_profile.chat_customer_text_color if business_profile.chat_customer_text_color else "No disponible"}
-    - Color de texto del chat del asistente: {business_profile.chat_assistant_text_color if business_profile.chat_assistant_text_color else "No disponible"}
-
-    Configuración del asistente:
-    - Nombre URL del asistente: {business_profile.assistant_url_name if business_profile.assistant_url_name else "No disponible"}
-    - Logo de empresa: {business_profile.company_logo.url if business_profile.company_logo else "No disponible"}
-    - Mostrar logo de empresa: {"Sí" if business_profile.show_company_logo else "No"}
-
-    Productos disponibles:
-    {product_list}
-
-    Servicios ofrecidos:
-    {service_list}
-
-    Preguntas frecuentes:
-    {faq_list}
-
-    Responde a las preguntas de los clientes basándote en esta información.
-    """
-
-    return instructions
-
+    builder = AssistantInstructionBuilder(assistant_url_name)
+    return builder.build()
 
 
 

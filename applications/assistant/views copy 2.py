@@ -32,6 +32,18 @@ class BusinessProfileCreateView(CreateView):
         return reverse_lazy("perfil_actualizado")
     
 
+class BusinessProfileUpdateView(UpdateView):
+    model = BusinessProfile
+    form_class = BusinessProfileForm
+    template_name = "assistant/business_profile_form.html"
+    
+    def get_object(self):
+        return self.request.user.business_profile  # Obtener perfil del usuario actual
+
+    def get_success_url(self):
+        return reverse_lazy("perfil_actualizado")
+
+
 class AssistantDetailView(DetailView):
     model = BusinessProfile
     template_name = "assistant/virtual_assistant.html"

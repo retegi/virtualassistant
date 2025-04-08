@@ -178,20 +178,33 @@ class AssistantUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "dashboard/assistant_create.html"
 
     def get_success_url(self):
-        """Redirige a la página de actualización del asistente después de guardar."""
-        return reverse_lazy("home_app:assistant_update", kwargs={"pk": self.object.pk})
+        """Redirige al dashboard después de guardar."""
+        return reverse_lazy("home_app:dashboard")
+
+    def get_context_data(self, **kwargs):
+        """Asegura que los valores actuales estén en el contexto del template."""
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        return context
 
     def form_valid(self, form):
         """Asigna automáticamente el usuario autenticado antes de guardar el formulario."""
         form.instance.user = self.request.user
-        self.object = form.save()  # Guarda el objeto en self.object antes de redirigir
+        self.object = form.save()  # Guarda el objeto con los nuevos cambios
+
+        # Depuración: Verifica que el objeto se ha guardado correctamente
+        print(f"Objeto guardado: {self.object}")
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        """Evita el error asegurando que self.object esté definido antes de renderizar."""
-        self.object = None  # Se asegura de que no haya un objeto antes de renderizar el formulario inválido
+        """Si el formulario es inválido, muestra los errores y vuelve a renderizar."""
+        # Depuración: Muestra los errores del formulario
+        print(f"Errores del formulario: {form.errors}")
         return self.render_to_response(self.get_context_data(form=form))
-    
+
+
+
 
 class AssistantDeleteView(LoginRequiredMixin, DeleteView):
     model = BusinessProfile
