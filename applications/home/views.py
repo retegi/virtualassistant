@@ -522,7 +522,7 @@ def create_payment(request, plan_type):
     if plan_type not in ["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"]:
         return redirect("home_app:home")  # Redirige si el plan es inválido
 
-    price = "45.00" if plan_type == "PREMIUM_MONTHLY" else "450.00"
+    price = "25.00" if plan_type == "PREMIUM_MONTHLY" else "250.00"
 
     payment = paypalrestsdk.Payment({
         "intent": "sale",
