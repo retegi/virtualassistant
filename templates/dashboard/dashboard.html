@@ -61,7 +61,7 @@
                       {% for dato in my_assistants %}
                       <tr class="text-center">
                           <th scope="row" class="fw-semibold text-start">{{ forloop.counter }}</th>
-                          <td class="fw-semibold text-start px-2">{{ dato.assistant_url_name }}</td>
+                          <td class="fw-semibold text-start px-2"><a class="text-decoration-none text-dark btn bg-white" style="text-transform:uppercase;border-color: #8a2be2;" href="https://www.tuasistenteinteligente.com/{{ dato.assistant_url_name }}" target="_blank">{{ dato.assistant_url_name }}</a></td>
                           <td>
                               <a href="{% url 'home_app:assistant_dlor: #8a2be2; /* Mantiene el color original en el borde */
                               etail' dato.id %}" class="btn btn-sm bg-color m-1" style="width: 70px;">
@@ -74,6 +74,7 @@
                                   Eliminar
                               </a>
                           </td>
+
                           <td>
                               {% if subscription_type == "free" %}
                                   <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
@@ -86,15 +87,17 @@
                               {% endif %}
                               
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal" style="border-color: #8a2be2; background-color: #fff;">
                                       Ver
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-sm m-1 w-100"  style="border-color: #8a2be2;">
+                                  <a href="{% url 'home_app:product_list' dato.id %}" class="btn btn-sm m-1 w-100"  style="background-color: #8a2be2;color: #fff;">
                                       <i class="bi bi-box"></i> Ver
                                   </a>
                               {% endif %}
                           </td>
+
+
                           <td>
                               {% if subscription_type == "free" %}
                                   <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
@@ -107,15 +110,17 @@
                               {% endif %}
                               
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal"style="border-color: #8a2be2; background-color: #fff;">
                                       Ver
                                   </button>
                               {% else %}
-                                  <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-sm m-1 w-100" style="border-color: #8a2be2;">
+                                  <a href="{% url 'home_app:service_list' dato.id %}" class="btn btn-sm m-1 w-100"  style="border-color: #8a2be2; background-color: #fff;">
                                       <i class="bi bi-wrench"></i> Ver servicios
                                   </a>
                               {% endif %}
                           </td>
+
+
                           <td>
                               {% if subscription_type == "free" %}
                                   <button type="button" class="btn bg-color btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
@@ -128,7 +133,7 @@
                               {% endif %}
                               
                               {% if subscription_type == "free" %}
-                                  <button type="button" class="btn btn-outline-primary btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal">
+                                  <button type="button" class="btn btn-sm m-1 w-100" data-bs-toggle="modal" data-bs-target="#upgradeModal" style="border-color: #8a2be2; background-color: #fff;">
                                       Ver
                                   </button>
                               {% else %}

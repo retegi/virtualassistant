@@ -46,41 +46,79 @@
         .bg-color:hover {
             background-color: #6a1bbd;
         }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Sidebar en dispositivos móviles */
+        .offcanvas-body {
+            padding-top: 10px;
+        }
+
+        /* Eliminar icono de la hamburguesa en escritorio */
+        .navbar-toggler {
+            display: none;
+        }
+
+        /* Asegurarnos de que no se solapen los elementos */
+        .navbar-nav .btn-close {
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar .dropdown-menu {
+            position: static;
+            float: none;
+        }
+
+        .sidebar .user-avatar {
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+        }
+
+        /* Estilos responsivos para el número de teléfono en móvil */
+        .phone-number {
+            font-size: 1rem;
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 10px;
+        }
+
+        /* Asegura que el ícono de la hamburguesa solo se muestre en móvil */
+        @media (max-width: 767px) {
+            .navbar-toggler {
+                display: block;
+            }
+        }
     </style>
     
 </head>
 <body>
 
-<!-- Barra de Navegación Superior -->
+<!-- Barra de Navegación Superior (sin el menú de usuario) -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-color fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home_app:dashboard' %}">
-            <label class="h3 grand-hotel-regular">TuAsistenteInteligente.com</label>
+            <label class="h2 grand-hotel-regular">TuAsistenteInteligente.com</label>
         </a>
 
-        <div class="d-flex align-items-center">
-            <div class="dropdown">
-                <span class="h4 p-1 text-white">Llama y te ayudamos <b>+34 635 726 721</b></span>
-                <button class="btn text-white dropdown-toggle border-1 border-white" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="35" height="35" alt="Usuario">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Cuenta</a></li>
-                    <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Cambiar Contraseña</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
-                </ul>
-            </div>
-            
-            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+        <!-- Espacio para el contenido de la derecha (si fuera necesario) -->
+        <div class="d-flex align-items-center ms-auto">
+            <!-- Mostrar número de teléfono en la barra superior -->
+            <span class="h4 p-1 text-white phone-number">Llama y te ayudamos <b>+34 747 478 842</b></span>
+
+            <!-- Botón para abrir el sidebar en dispositivos móviles -->
+            <button class="navbar-toggler d-md-none ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
     </div>
 </nav>
 
-<!-- Sidebar Lateral (Eliminado duplicado) -->
+<!-- Sidebar Lateral (Menú de Usuario en la barra lateral izquierda) -->
 <div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title">Menú</h5>
@@ -88,16 +126,28 @@
     </div>
     <div class="offcanvas-body">
         <div class="text-center mb-3">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="80" height="80" alt="Usuario">
             {% if user.is_authenticated %}
+            <!-- Mostrar las primeras dos letras del nombre de usuario -->
+            <div class="rounded-circle text-white d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;background-color: #6a1bbd;">
+                <span class="fw-bold">{{ user.username|slice:":2" }}</span> <!-- Muestra las primeras 2 letras del nombre de usuario -->
+            </div>
             <p class="fw-bold mt-2">{{ user.username }}</p>
-          {% endif %}
+            {% endif %}
         </div>
 
+        <!-- Menú de navegación -->
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
             <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:home' %}">Página web</a></li>
             <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'home_app:assistant_create' %}">Crear Asistente</a></li>
+            
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="#">Mi Perfil</a></li>
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="#">Cuenta</a></li>
+            <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'account_change_password' %}">Cambiar Contraseña</a></li>
+            <li class="nav-item"><hr class="dropdown-divider"></li>
+            <li class="nav-item"><a style="background-color: rgb(95, 33, 14);"  class="nav-link btn w-100 m-2 text-white" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
+            {% endif %}
         </ul>
     </div>
 </div>
@@ -105,15 +155,26 @@
 <!-- Sidebar en Escritorio -->
 <div class="sidebar d-none d-md-block">
     <div class="text-center my-3">
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="80" height="80" alt="Usuario">
-        {% if user.is_authenticated %}
-        <p class="fw-bold mt-2">{{ user.username }}</p>
-        {% endif %}
+      {% if user.is_authenticated %}
+      <!-- Mostrar las primeras dos letras del nombre de usuario -->
+      <div class="rounded-circle text-white d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;background-color: #6a1bbd;">
+        <span class="fw-bold">{{ user.username|slice:":2" }}</span> <!-- Muestra las primeras 2 letras del nombre de usuario -->
+      </div>
+      <p class="fw-bold mt-2">{{ user.username }}</p>
+      {% endif %}
     </div>
     <ul class="nav flex-column m-3">
-        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
-        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:home' %}">Página web</a></li>
-        <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:assistant_create' %}">Crear Asistente</a></li>
+      <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:dashboard' %}">Panel inicial</a></li>
+      <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:home' %}">Página web</a></li>
+      <li class="nav-item"><a class="nav-link btn w-100 bg-color m-2" href="{% url 'home_app:assistant_create' %}">Crear Asistente</a></li>
+      
+      {% if user.is_authenticated %}
+      <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="#">Mi Perfil</a></li>
+      <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="#">Cuenta</a></li>
+      <li class="nav-item"><a class="nav-link btn w-100 m-2 bg-color" href="{% url 'account_change_password' %}">Cambiar Contraseña</a></li>
+      <li class="nav-item"><hr class="dropdown-divider"></li>
+      <li class="nav-item"><a style="background-color: rgb(95, 33, 14);" class="nav-link btn w-100 m-2 bg-color" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
+      {% endif %}
     </ul>
 </div>
 
